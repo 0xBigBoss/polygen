@@ -66,25 +66,24 @@ android {
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
-    // Native build disabled - C++ implementation for Android is not yet complete
-    // See: https://github.com/callstackincubator/polygen/issues/132
-    // externalNativeBuild {
-    //   cmake {
-    //     cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
-    //     abiFilters (*reactNativeArchitectures())
-    //   }
-    // }
+    externalNativeBuild {
+      cmake {
+        cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
+        abiFilters(*reactNativeArchitectures())
+        arguments "-DANDROID_STL=c++_shared"
+      }
+    }
   }
 
-  // Native build disabled - C++ implementation for Android is not yet complete
-  // externalNativeBuild {
-  //   cmake {
-  //     path "CMakeLists.txt"
-  //   }
-  // }
+  externalNativeBuild {
+    cmake {
+      path "CMakeLists.txt"
+    }
+  }
 
   buildFeatures {
     buildConfig true
+    prefab true
   }
 
   buildTypes {

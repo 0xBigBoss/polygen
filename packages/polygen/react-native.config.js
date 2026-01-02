@@ -10,6 +10,7 @@ module.exports = {
       android: {
         packageImportPath: 'import com.callstack.polygen.PolygenPackage;',
         packageInstance: 'new PolygenPackage()',
+        cmakeListsPath: 'android/CMakeLists.txt',
       },
       ios: {},
     },

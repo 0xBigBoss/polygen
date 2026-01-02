@@ -5,8 +5,14 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.NativeModule
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.module.model.ReactModuleInfo
+import com.facebook.soloader.SoLoader
 
 class PolygenPackage : TurboReactPackage() {
+  companion object {
+    init {
+      SoLoader.loadLibrary("polygen")
+    }
+  }
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
     return if (name == PolygenModule.NAME) {
       PolygenModule(reactContext)
@@ -25,7 +31,7 @@ class PolygenPackage : TurboReactPackage() {
         false,  // canOverrideExistingModule
         false,  // needsEagerInit
         false,  // hasConstants
-        false,  // isCxxModule
+        true,   // isCxxModule - C++ TurboModule registered via JNI_OnLoad
         isTurboModule // isTurboModule
       )
       moduleInfos

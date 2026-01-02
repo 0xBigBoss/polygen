@@ -8,6 +8,7 @@
 
 #include <cinttypes>
 #include <span>
+#include <string>
 
 namespace callstack::polygen {
 
