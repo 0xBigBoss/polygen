@@ -66,39 +66,49 @@ android {
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
-    externalNativeBuild {
-      cmake {
-        cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
-        abiFilters(*reactNativeArchitectures())
-        arguments "-DANDROID_STL=c++_shared"
+    // C++ TurboModule build is only enabled for new architecture
+    // Old architecture uses the Java/Kotlin stub that throws UnsupportedOperationException
+    if (isNewArchitectureEnabled()) {
+      externalNativeBuild {
+        cmake {
+          cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
+          abiFilters(*reactNativeArchitectures())
+          arguments "-DANDROID_STL=c++_shared"
+        }
       }
     }
   }
 
-  externalNativeBuild {
-    cmake {
-      path "CMakeLists.txt"
+  // Only configure CMake when new architecture is enabled
+  // The C++ sources require codegen-generated headers that only exist with new arch
+  if (isNewArchitectureEnabled()) {
+    externalNativeBuild {
+      cmake {
+        path "CMakeLists.txt"
+      }
     }
   }
 
   buildFeatures {
     buildConfig true
-    prefab true
+    prefab isNewArchitectureEnabled()
   }
 
-  packagingOptions {
-    // Exclude React Native native libs from this library's AAR
-    // They will be provided by the app's react-native dependency
-    excludes += [
-      "**/libreactnativejni.so",
-      "**/libfbjni.so",
-      "**/libjsi.so",
-      "**/libfolly_runtime.so",
-      "**/libglog.so",
-      "**/libhermes.so",
-      "**/libreact_*.so",
-      "**/libturbomodulejsijni.so"
-    ]
+  if (isNewArchitectureEnabled()) {
+    packagingOptions {
+      // Exclude React Native native libs from this library's AAR
+      // They will be provided by the app's react-native dependency
+      excludes += [
+        "**/libreactnativejni.so",
+        "**/libfbjni.so",
+        "**/libjsi.so",
+        "**/libfolly_runtime.so",
+        "**/libglog.so",
+        "**/libhermes.so",
+        "**/libreact_*.so",
+        "**/libturbomodulejsijni.so"
+      ]
+    }
   }
 
   buildTypes {
