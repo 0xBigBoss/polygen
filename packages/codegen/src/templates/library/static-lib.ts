@@ -55,7 +55,11 @@ export function buildStaticLibrarySource(module: W2CGeneratedModule) {
       ])
     );
 
-  const moduleVar = new cpp.VariableBuilder('moduleInfo')
+  // Use module-specific names to avoid duplicate symbol errors when linking multiple modules
+  const moduleInfoVarName = `${module.generatedClassName}ModuleInfo`;
+  const moduleSharedVarName = `${module.generatedClassName}ModuleSharedInfo`;
+
+  const moduleVar = new cpp.VariableBuilder(moduleInfoVarName)
     .withType(moduleType)
     .withInitializer(
       (i) =>
@@ -71,7 +75,7 @@ export function buildStaticLibrarySource(module: W2CGeneratedModule) {
       true
     );
 
-  const moduleSharedVar = new cpp.VariableBuilder('moduleSharedInfo')
+  const moduleSharedVar = new cpp.VariableBuilder(moduleSharedVarName)
     .withType(abstractModuleType.asSharedPtr())
     .withInitializer((i) => i.symbol(moduleVar.name).addressOf());
 

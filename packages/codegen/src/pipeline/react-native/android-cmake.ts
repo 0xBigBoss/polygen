@@ -60,13 +60,20 @@ function buildCMakeListsSource(): string {
     # - CMAKE_CURRENT_SOURCE_DIR: the generated code root (for loader.cpp, imports, etc.)
     # - wasm-rt: the wasm-rt runtime headers (wasm-rt.h, etc.)
     # - POLYGEN_INCLUDE_DIR: the polygen library headers (set by parent CMakeLists.txt)
-    # - POLYGEN_INCLUDE_DIR/ReactNativePolygen: for Module.h, StaticLibraryModule.h, etc.
+    # - POLYGEN_INCLUDE_DIR/ReactNativePolygen: for StaticLibraryModule.h, etc.
+    # - POLYGEN_INCLUDE_DIR/ReactNativePolygen/WebAssembly: for Module.h (included by StaticLibraryModule.h)
     target_include_directories(polygen_generated PRIVATE
       \${CMAKE_CURRENT_SOURCE_DIR}
       \${CMAKE_CURRENT_SOURCE_DIR}/wasm-rt
       \${POLYGEN_INCLUDE_DIR}
       \${POLYGEN_INCLUDE_DIR}/ReactNativePolygen
+      \${POLYGEN_INCLUDE_DIR}/ReactNativePolygen/WebAssembly
     )
+
+    # Link against ReactAndroid::jsi to get JSI headers
+    # This is found via prefab in the parent CMakeLists.txt
+    find_package(ReactAndroid REQUIRED CONFIG)
+    target_link_libraries(polygen_generated PRIVATE ReactAndroid::jsi)
 
     # Compiler flags matching polygen library
     target_compile_options(polygen_generated PRIVATE

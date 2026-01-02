@@ -15,9 +15,9 @@ class Memory: public facebook::jsi::NativeState, public facebook::jsi::MutableBu
 public:
   explicit Memory(wasm_rt_memory_t* memory): memory_(memory) {}
   
-  Memory(uint64_t initial, uint64_t maximum, bool is64 = false) {
+  Memory(uint64_t initial, uint64_t maximum, bool is64 = false, uint32_t pageSize = WASM_DEFAULT_PAGE_SIZE) {
     this->memory_ = &this->ownedMemory_;
-    wasm_rt_allocate_memory(this->memory_, initial, maximum, is64);
+    wasm_rt_allocate_memory(this->memory_, initial, maximum, is64, pageSize);
   }
   
   virtual ~Memory() {

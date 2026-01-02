@@ -67,22 +67,21 @@ extern "C" {
 #include <windows.h>
 #define WASM_RT_MUTEX CRITICAL_SECTION
 #define WASM_RT_USE_CRITICALSECTION 1
-#elif defined(__APPLE__) || defined(__STDC_NO_THREADS__)
+#else
 #include <pthread.h>
 #define WASM_RT_MUTEX pthread_mutex_t
 #define WASM_RT_USE_PTHREADS 1
-#else
-#include <threads.h>
-#define WASM_RT_MUTEX mtx_t
-#define WASM_RT_USE_C11THREADS 1
 #endif
 
 #endif
 
-#ifdef _MSC_VER
-#define WASM_RT_THREAD_LOCAL __declspec(thread)
-#elif defined(WASM_RT_C11_AVAILABLE)
+#ifdef WASM_RT_C11_AVAILABLE
 #define WASM_RT_THREAD_LOCAL _Thread_local
+#elif defined(_MSC_VER)
+#define WASM_RT_THREAD_LOCAL __declspec(thread)
+#elif (defined(__GNUC__) || defined(__clang__)) && !defined(__APPLE__)
+// Disabled on Apple systems due to sporadic test failures.
+#define WASM_RT_THREAD_LOCAL __thread
 #else
 #define WASM_RT_THREAD_LOCAL
 #endif
@@ -126,7 +125,7 @@ extern "C" {
  * needed (so we can use the guard based range checks below).
  */
 #ifndef WASM_RT_USE_MMAP
-#if UINTPTR_MAX > 0xffffffff && !SUPPORT_MEMORY64
+#if UINTPTR_MAX > 0xffffffff
 #define WASM_RT_USE_MMAP 1
 #else
 #define WASM_RT_USE_MMAP 0
@@ -141,15 +140,13 @@ extern "C" {
  *
  * BOUNDS_CHECK: memory accesses are checked with explicit bounds checks.
  *
- * This defaults to GUARD_PAGES as this is the fasest option, iff the
+ * This defaults to GUARD_PAGES as this is the fastest option, iff the
  * requirements of GUARD_PAGES --- 64-bit platforms, MMAP allocation strategy,
- * no 64-bit memories, no big-endian --- are met. This falls back to BOUNDS
- * otherwise.
+ * no 64-bit memories --- are met. This falls back to BOUNDS otherwise.
  */
 
 /** Check if Guard checks are supported */
-#if UINTPTR_MAX > 0xffffffff && WASM_RT_USE_MMAP && !SUPPORT_MEMORY64 && \
-    !WABT_BIG_ENDIAN
+#if UINTPTR_MAX > 0xffffffff && WASM_RT_USE_MMAP
 #define WASM_RT_GUARD_PAGES_SUPPORTED 1
 #else
 #define WASM_RT_GUARD_PAGES_SUPPORTED 0
@@ -228,6 +225,34 @@ extern "C" {
 #define WASM_RT_SEGUE_FREE_SEGMENT 0
 #endif
 
+#ifndef WASM_RT_USE_SEGUE
+// Memory functions can use the segue optimization if allowed. The segue
+// optimization uses x86 segments to point to a linear memory. We use this
+// optimization when:
+//
+// (1) Segue is allowed using WASM_RT_ALLOW_SEGUE
+// (2) on x86_64 without WABT_BIG_ENDIAN enabled
+// (3) the compiler supports: intrinsics for (rd|wr)gsbase, "address namespaces"
+//     for accessing pointers, and supports memcpy on pointers with custom
+//     "address namespaces". GCC does not support the memcpy requirement, so
+//     this leaves only clang (version 9 or later) for now.
+// (4) The OS provides a way to query if (rd|wr)gsbase is allowed by the kernel
+// or the implementation has to use a syscall for this.
+// (5) The OS doesn't replace the segment register on context switch which
+//     eliminates windows for now
+//
+// While more OS can be supported in the future, we only support linux for now
+#if WASM_RT_ALLOW_SEGUE && !WABT_BIG_ENDIAN &&                            \
+    (defined(__x86_64__) || defined(_M_X64)) && __clang__ &&              \
+    (__clang_major__ >= 9) && __has_builtin(__builtin_ia32_wrgsbase64) && \
+    !defined(_WIN32) && !defined(__ANDROID__) &&                          \
+    (defined(__linux__) || defined(__FreeBSD__))
+#define WASM_RT_USE_SEGUE 1
+#else
+#define WASM_RT_USE_SEGUE 0
+#endif
+#endif
+
 /**
  * This macro, if defined, allows the embedder to disable all stack exhaustion
  * checks. This a non conformant configuration, i.e., this does not respect
@@ -240,13 +265,15 @@ extern "C" {
 /**
  * We need to detect and trap stack overflows. If we use a signal handler on
  * POSIX systems, this can detect call stack overflows. On windows, or platforms
- * without a signal handler, we use stack depth counting.
+ * without a signal handler, we use stack depth counting. The s390x big endian
+ * platform additionally seems to have issues with stack guard pages, so we play
+ * it safe and use stack counting on big endian platforms.
  */
 #if !defined(WASM_RT_STACK_DEPTH_COUNT) &&        \
     !defined(WASM_RT_STACK_EXHAUSTION_HANDLER) && \
     !WASM_RT_NONCONFORMING_UNCHECKED_STACK_EXHAUSTION
 
-#if WASM_RT_INSTALL_SIGNAL_HANDLER && !defined(_WIN32)
+#if WASM_RT_INSTALL_SIGNAL_HANDLER && !defined(_WIN32) && !WABT_BIG_ENDIAN
 #define WASM_RT_STACK_EXHAUSTION_HANDLER 1
 #else
 #define WASM_RT_STACK_DEPTH_COUNT 1
@@ -306,7 +333,7 @@ extern WASM_RT_THREAD_LOCAL uint32_t wasm_rt_call_stack_depth;
 
 #endif
 
-#if WASM_RT_USE_SEGUE || WASM_RT_ALLOW_SEGUE
+#if WASM_RT_USE_SEGUE
 /**
  * The segue optimization uses x86 segments to point to a linear memory. If
  * used, the runtime must query whether it can use the fast userspace wrgsbase
@@ -349,31 +376,33 @@ extern WASM_RT_THREAD_LOCAL void* wasm_rt_last_segment_val;
 
 /** Reason a trap occurred. Provide this to `wasm_rt_trap`. */
 typedef enum {
-    WASM_RT_TRAP_NONE, /** No error. */
-    WASM_RT_TRAP_OOB,  /** Out-of-bounds access in linear memory or a table. */
-    WASM_RT_TRAP_INT_OVERFLOW, /** Integer overflow on divide or truncation. */
-    WASM_RT_TRAP_DIV_BY_ZERO,  /** Integer divide by zero. */
-    WASM_RT_TRAP_INVALID_CONVERSION, /** Conversion from NaN to integer. */
-    WASM_RT_TRAP_UNREACHABLE,        /** Unreachable instruction executed. */
-    WASM_RT_TRAP_CALL_INDIRECT,      /** Invalid call_indirect, for any reason. */
-    WASM_RT_TRAP_UNCAUGHT_EXCEPTION, /** Exception thrown and not caught. */
-    WASM_RT_TRAP_UNALIGNED,          /** Unaligned atomic instruction executed. */
+  WASM_RT_TRAP_NONE, /** No error. */
+  WASM_RT_TRAP_OOB,  /** Out-of-bounds access in linear memory or a table. */
+  WASM_RT_TRAP_INT_OVERFLOW, /** Integer overflow on divide or truncation. */
+  WASM_RT_TRAP_DIV_BY_ZERO,  /** Integer divide by zero. */
+  WASM_RT_TRAP_INVALID_CONVERSION, /** Conversion from NaN to integer. */
+  WASM_RT_TRAP_UNREACHABLE,        /** Unreachable instruction executed. */
+  WASM_RT_TRAP_CALL_INDIRECT,      /** Invalid call_indirect, for any reason. */
+  WASM_RT_TRAP_NULL_REF,           /** Null reference. */
+  WASM_RT_TRAP_UNCAUGHT_EXCEPTION, /** Exception thrown and not caught. */
+  WASM_RT_TRAP_UNALIGNED,          /** Unaligned atomic instruction executed. */
 #if WASM_RT_MERGED_OOB_AND_EXHAUSTION_TRAPS
-    WASM_RT_TRAP_EXHAUSTION = WASM_RT_TRAP_OOB,
+  WASM_RT_TRAP_EXHAUSTION = WASM_RT_TRAP_OOB,
 #else
-    WASM_RT_TRAP_EXHAUSTION, /** Call stack exhausted. */
+  WASM_RT_TRAP_EXHAUSTION, /** Call stack exhausted. */
 #endif
 } wasm_rt_trap_t;
 
 /** Value types. Used to define function signatures. */
 typedef enum {
-    WASM_RT_I32,
-    WASM_RT_I64,
-    WASM_RT_F32,
-    WASM_RT_F64,
-    WASM_RT_V128,
-    WASM_RT_FUNCREF,
-    WASM_RT_EXTERNREF,
+  WASM_RT_I32,
+  WASM_RT_I64,
+  WASM_RT_F32,
+  WASM_RT_F64,
+  WASM_RT_V128,
+  WASM_RT_FUNCREF,
+  WASM_RT_EXTERNREF,
+  WASM_RT_EXNREF,
 } wasm_rt_type_t;
 
 /**
@@ -390,9 +419,9 @@ typedef void (*wasm_rt_function_ptr_t)(void);
  * single-member struct to allow a recursive definition.)
  */
 typedef struct wasm_rt_tailcallee_t {
-    void (*fn)(void** instance_ptr,
-               void* tail_call_stack,
-               struct wasm_rt_tailcallee_t* next);
+  void (*fn)(void** instance_ptr,
+             void* tail_call_stack,
+             struct wasm_rt_tailcallee_t* next);
 } wasm_rt_tailcallee_t;
 
 /**
@@ -406,21 +435,21 @@ typedef const char* wasm_rt_func_type_t;
  * These can be stored in tables of type funcref, or used as values.
  */
 typedef struct {
-    /** The function's type. */
-    wasm_rt_func_type_t func_type;
-    /**
-     * The function. The embedder must know the actual C signature of the function
-     * and cast to it before calling.
-     */
-    wasm_rt_function_ptr_t func;
-    /** An alternate version of the function to be used when tail-called. */
-    wasm_rt_tailcallee_t func_tailcallee;
-    /**
-     * A function instance is a closure of the function over an instance
-     * of the originating module. The module_instance element will be passed into
-     * the function at runtime.
-     */
-    void* module_instance;
+  /** The function's type. */
+  wasm_rt_func_type_t func_type;
+  /**
+   * The function. The embedder must know the actual C signature of the function
+   * and cast to it before calling.
+   */
+  wasm_rt_function_ptr_t func;
+  /** An alternate version of the function to be used when tail-called. */
+  wasm_rt_tailcallee_t func_tailcallee;
+  /**
+   * A function instance is a closure of the function over an instance
+   * of the originating module. The module_instance element will be passed into
+   * the function at runtime.
+   */
+  void* module_instance;
 } wasm_rt_funcref_t;
 
 /** Default (null) value of a funcref */
@@ -435,19 +464,21 @@ typedef void* wasm_rt_externref_t;
 
 /** A Memory object. */
 typedef struct {
-    /** The linear memory data, with a byte length of `size`. */
-    uint8_t* data;
-    /** The current page count for this Memory object. */
-    uint64_t pages;
-    /**
-     * The maximum page count for this Memory object. If there is no maximum,
-     * `max_pages` is 0xffffffffu (i.e. UINT32_MAX).
-     */
-    uint64_t max_pages;
-    /** The current size of the linear memory, in bytes. */
-    uint64_t size;
-    /** Is this memory indexed by u64 (as opposed to default u32) */
-    bool is64;
+  /** The linear memory data, with a byte length of `size`. */
+  uint8_t* data;
+  /** The location after the the reserved space for the linear memory data. */
+  uint8_t* data_end;
+  /** The page size for this Memory object
+      (always 64 KiB without the custom-page-sizes feature) */
+  uint32_t page_size;
+  /** The current page count for this Memory object. */
+  uint64_t pages;
+  /** The maximum page count for this Memory object. */
+  uint64_t max_pages;
+  /** The current size of the linear memory, in bytes. */
+  uint64_t size;
+  /** Is this memory indexed by u64 (as opposed to default u32) */
+  bool is64;
 } wasm_rt_memory_t;
 
 #ifdef WASM_RT_C11_AVAILABLE
@@ -465,12 +496,15 @@ typedef struct {
    * volatile.
    */
   _Atomic volatile uint8_t* data;
+  /** The location one byte after the reserved space for the linear memory data.
+   * This includes any reserved pages that are not yet allocated. */
+  _Atomic volatile uint8_t* data_end;
+  /** The page size for this Memory object
+      (always 64 KiB without the custom-page-sizes feature) */
+  uint32_t page_size;
   /** The current page count for this Memory object. */
   uint64_t pages;
-  /**
-   * The maximum page count for this Memory object. If there is no maximum,
-   * `max_pages` is 0xffffffffu (i.e. UINT32_MAX).
-   */
+  /* The maximum page count for this Memory object. */
   uint64_t max_pages;
   /** The current size of the linear memory, in bytes. */
   uint64_t size;
@@ -483,28 +517,28 @@ typedef struct {
 
 /** A Table of type funcref. */
 typedef struct {
-    /** The table element data, with an element count of `size`. */
-    wasm_rt_funcref_t* data;
-    /**
-     * The maximum element count of this Table object. If there is no maximum,
-     * `max_size` is 0xffffffffu (i.e. UINT32_MAX).
-     */
-    uint32_t max_size;
-    /** The current element count of the table. */
-    uint32_t size;
+  /** The table element data, with an element count of `size`. */
+  wasm_rt_funcref_t* data;
+  /**
+   * The maximum element count of this Table object. If there is no maximum,
+   * `max_size` is 0xffffffffu (i.e. UINT32_MAX).
+   */
+  uint32_t max_size;
+  /** The current element count of the table. */
+  uint32_t size;
 } wasm_rt_funcref_table_t;
 
 /** A Table of type externref. */
 typedef struct {
-    /** The table element data, with an element count of `size`. */
-    wasm_rt_externref_t* data;
-    /**
-     * The maximum element count of this Table object. If there is no maximum,
-     * `max_size` is 0xffffffffu (i.e. UINT32_MAX).
-     */
-    uint32_t max_size;
-    /** The current element count of the table. */
-    uint32_t size;
+  /** The table element data, with an element count of `size`. */
+  wasm_rt_externref_t* data;
+  /**
+   * The maximum element count of this Table object. If there is no maximum,
+   * `max_size` is 0xffffffffu (i.e. UINT32_MAX).
+   */
+  uint32_t max_size;
+  /** The current element count of the table. */
+  uint32_t size;
 } wasm_rt_externref_table_t;
 
 /** Initialize the runtime. */
@@ -531,10 +565,10 @@ void wasm_rt_free_thread(void);
 
 /** A hardened jmp_buf that allows checking for initialization before use */
 typedef struct {
-    /** Is the jmp buf intialized? */
-    bool initialized;
-    /** jmp_buf contents */
-    jmp_buf buffer;
+  /** Is the jmp buf intialized? */
+  bool initialized;
+  /** jmp_buf contents */
+  jmp_buf buffer;
 } wasm_rt_jmp_buf;
 
 #ifndef _WIN32
@@ -572,6 +606,9 @@ const char* wasm_rt_strerror(wasm_rt_trap_t trap);
 
 #define wasm_rt_try(target) WASM_RT_SETJMP(target)
 
+/** WebAssembly's default page size (64 KiB) */
+#define WASM_DEFAULT_PAGE_SIZE 65536
+
 /**
  * Initialize a Memory object with an initial page size of `initial_pages` and
  * a maximum page size of `max_pages`, indexed with an i32 or i64.
@@ -580,13 +617,14 @@ const char* wasm_rt_strerror(wasm_rt_trap_t trap);
  *    wasm_rt_memory_t my_memory;
  *    // 1 initial page (65536 bytes), and a maximum of 2 pages,
  *    // indexed with an i32
- *    wasm_rt_allocate_memory(&my_memory, 1, 2, false);
+ *    wasm_rt_allocate_memory(&my_memory, 1, 2, false, WASM_DEFAULT_PAGE_SIZE);
  *  ```
  */
 void wasm_rt_allocate_memory(wasm_rt_memory_t*,
                              uint64_t initial_pages,
                              uint64_t max_pages,
-                             bool is64);
+                             bool is64,
+                             uint32_t page_size);
 
 /**
  * Grow a Memory object by `pages`, and return the previous page count. If
@@ -613,7 +651,8 @@ void wasm_rt_free_memory(wasm_rt_memory_t*);
 void wasm_rt_allocate_memory_shared(wasm_rt_shared_memory_t*,
                                     uint64_t initial_pages,
                                     uint64_t max_pages,
-                                    bool is64);
+                                    bool is64,
+                                    uint32_t page_size);
 
 /** Shared memory version of wasm_rt_grow_memory */
 uint64_t wasm_rt_grow_memory_shared(wasm_rt_shared_memory_t*, uint64_t pages);

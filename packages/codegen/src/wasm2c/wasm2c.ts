@@ -16,10 +16,11 @@ export class Wasm2cError extends Error {
 }
 
 function assertVersion(output: string) {
-  if (!output.startsWith('1.0.36')) {
+  // Support both 1.0.36 and 1.0.39 (bundled wasm-rt updated to 1.0.39 API)
+  if (!output.startsWith('1.0.36') && !output.startsWith('1.0.39')) {
     const version = output.split(' ')[0];
     throw new Wasm2cError(
-      `Unsupported wasm2c version: ${version}. Please use version 1.0.36.`
+      `Unsupported wasm2c version: ${version}. Please use version 1.0.36 or 1.0.39.`
     );
   }
 }
