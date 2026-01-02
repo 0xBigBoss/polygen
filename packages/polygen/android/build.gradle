@@ -86,6 +86,21 @@ android {
     prefab true
   }
 
+  packagingOptions {
+    // Exclude React Native native libs from this library's AAR
+    // They will be provided by the app's react-native dependency
+    excludes += [
+      "**/libreactnativejni.so",
+      "**/libfbjni.so",
+      "**/libjsi.so",
+      "**/libfolly_runtime.so",
+      "**/libglog.so",
+      "**/libhermes.so",
+      "**/libreact_*.so",
+      "**/libturbomodulejsijni.so"
+    ]
+  }
+
   buildTypes {
     release {
       minifyEnabled false

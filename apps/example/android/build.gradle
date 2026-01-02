@@ -43,6 +43,13 @@ allprojects {
 }
 
 
-react {
-    bundleCommand = "webpack-bundle"
+// Configure react-native in app subproject after plugin is applied
+subprojects {
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin("com.facebook.react")) {
+            project.react {
+                bundleCommand = "webpack-bundle"
+            }
+        }
+    }
 }
