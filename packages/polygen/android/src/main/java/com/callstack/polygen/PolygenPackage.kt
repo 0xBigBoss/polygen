@@ -14,6 +14,12 @@ class PolygenPackage : TurboReactPackage() {
     }
   }
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
+    // For new architecture with C++ TurboModule, return null to let the system
+    // use the C++ module registered via JNI_OnLoad in OnLoad.cpp
+    if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+      return null
+    }
+    // Old architecture fallback (throws UnsupportedOperationException)
     return if (name == PolygenModule.NAME) {
       PolygenModule(reactContext)
     } else {

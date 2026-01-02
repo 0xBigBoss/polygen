@@ -36,12 +36,19 @@ file(GLOB WASM_RT_C_SOURCES
   "../cpp/wasm-rt/*.c"
 )
 
-# JNI registration, stubs, and codegen-generated sources
+# JNI registration and stubs
 set(JNI_SOURCES
   "src/main/jni/OnLoad.cpp"
   "src/main/jni/ModuleBagStub.cpp"
-  "${CMAKE_SOURCE_DIR}/build/generated/source/codegen/jni/react/renderer/components/RNPolygenSpec/RNPolygenSpecJSI-generated.cpp"
 )
+
+# Codegen-generated sources (only available when new architecture is enabled and codegen has run)
+set(CODEGEN_JSI_SOURCE "${CMAKE_SOURCE_DIR}/build/generated/source/codegen/jni/react/renderer/components/RNPolygenSpec/RNPolygenSpecJSI-generated.cpp")
+if(EXISTS "${CODEGEN_JSI_SOURCE}")
+  list(APPEND JNI_SOURCES "${CODEGEN_JSI_SOURCE}")
+else()
+  message(STATUS "Codegen source not found at ${CODEGEN_JSI_SOURCE}, skipping (run with newArchEnabled=true after codegen)")
+endif()
 
 # Create shared library
 add_library(polygen SHARED
@@ -57,13 +64,14 @@ target_include_directories(polygen PRIVATE
   ../cpp/wasm-rt
 )
 
-# Include directories for codegen-generated headers
-# These are set by the React Native Gradle plugin
-# The path is relative to the library's build directory
-target_include_directories(polygen PRIVATE
-  ${CMAKE_SOURCE_DIR}/build/generated/source/codegen/jni
-  ${CMAKE_SOURCE_DIR}/build/generated/source/codegen/jni/react/renderer/components/RNPolygenSpec
-)
+# Include directories for codegen-generated headers (only if they exist)
+set(CODEGEN_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/build/generated/source/codegen/jni")
+if(EXISTS "${CODEGEN_INCLUDE_DIR}")
+  target_include_directories(polygen PRIVATE
+    ${CODEGEN_INCLUDE_DIR}
+    ${CODEGEN_INCLUDE_DIR}/react/renderer/components/RNPolygenSpec
+  )
+endif()
 
 # Link against React Native and fbjni
 target_link_libraries(polygen
