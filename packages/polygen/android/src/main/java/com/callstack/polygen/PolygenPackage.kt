@@ -10,7 +10,11 @@ import com.facebook.soloader.SoLoader
 class PolygenPackage : TurboReactPackage() {
   companion object {
     init {
-      SoLoader.loadLibrary("polygen")
+      // Only load native library when new architecture is enabled
+      // Old architecture uses Java/Kotlin stub and no native library is built
+      if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+        SoLoader.loadLibrary("polygen")
+      }
     }
   }
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
@@ -30,15 +34,15 @@ class PolygenPackage : TurboReactPackage() {
   override fun getReactModuleInfoProvider(): ReactModuleInfoProvider {
     return ReactModuleInfoProvider {
       val moduleInfos: MutableMap<String, ReactModuleInfo> = HashMap()
-      val isTurboModule: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
+      val isNewArch: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
       moduleInfos[PolygenModule.NAME] = ReactModuleInfo(
         PolygenModule.NAME,
         PolygenModule.NAME,
-        false,  // canOverrideExistingModule
-        false,  // needsEagerInit
-        false,  // hasConstants
-        true,   // isCxxModule - C++ TurboModule registered via JNI_OnLoad
-        isTurboModule // isTurboModule
+        false,    // canOverrideExistingModule
+        false,    // needsEagerInit
+        false,    // hasConstants
+        isNewArch, // isCxxModule - only true for new arch C++ TurboModule
+        isNewArch  // isTurboModule
       )
       moduleInfos
     }
