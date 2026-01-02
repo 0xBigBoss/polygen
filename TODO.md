@@ -22,12 +22,14 @@
   - App launches successfully via ADB
   - UI visible and interactive (BottomTabs Example screen)
   - Navigation works (Import Validation screen)
-  - Polygen TurboModule responds to API calls
-  - No UnsatisfiedLinkError or module registration errors
+  - C++ TurboModule registration working (no UnsatisfiedLinkError)
   - "Bridgeless mode is enabled" confirms new architecture active
 
 ## Pending
-None
+- [ ] Phase 5: Android integration for polygen-generated code
+  - iOS uses `ReactNativeWebAssemblyHost.podspec` to link generated native code
+  - Android needs equivalent mechanism (CMake include or separate AAR)
+  - Until implemented, modules return "not precompiled" errors as expected
 
 ## Blocked
 None
@@ -37,14 +39,33 @@ None
 - Main activity: `com.microsoft.reacttestapp.MainActivity`
 - libpolygen.so loaded successfully (verified in logcat)
 - No UnsatisfiedLinkError or TurboModule registration errors
-- Import Validation test shows expected "unhandled promise rejection" for missing import - this is correct behavior testing error handling
 - iOS codegen generates: `RNPolygenSpecJSI.h` with class `NativePolygenCxxSpecJSI`
 - Android codegen also generates: `RNPolygenSpecJSI.h` with same class name
 
+## Module Loading Architecture
+
+### How It Works
+1. `polygen generate` creates native C/C++ code in `node_modules/.polygen-out/host/`
+2. It generates a `loader.cpp` with `getModuleBag()` containing all precompiled modules
+3. The polygen library has `ModuleBagStub.cpp` returning an empty bag (fallback)
+4. For modules to load, the app must link generated code instead of the stub
+
+### iOS vs Android
+- **iOS**: `ReactNativeWebAssemblyHost.podspec` auto-links generated code via CocoaPods
+- **Android**: No equivalent mechanism yet - requires manual CMake integration
+
+### Current Behavior
+- C++ TurboModule registration: ✅ Working
+- Module compile errors (expected): "module was not precompiled"
+- This is correct behavior when generated code isn't linked
+
 ## Verification Summary
-All success criteria met:
-1. ✅ Android example app launches successfully on emulator via ADB
-2. ✅ App UI is visible and interactive (verified via screenshots)
-3. ✅ Polygen TurboModule is loaded without crashes (no errors in logcat)
-4. ✅ Basic Polygen API call works (Import Validation test responds correctly)
-5. ✅ No UnsatisfiedLinkError or module registration errors in logcat
+PR scope (C++ TurboModule wiring) verified:
+1. ✅ Android example app launches successfully on emulator
+2. ✅ App UI is visible and interactive
+3. ✅ libpolygen.so loads without UnsatisfiedLinkError
+4. ✅ C++ TurboModule registered via JNI_OnLoad
+5. ✅ Module API accessible from JavaScript (returns expected errors for unlinked modules)
+
+Future work needed:
+- Android equivalent of ReactNativeWebAssemblyHost.podspec for linking generated code
