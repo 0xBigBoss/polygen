@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.4.1)
-project(Wasm)
+project(Polygen)
 
-set (CMAKE_VERBOSE_MAKEFILE ON)
-set (CMAKE_CXX_STANDARD 14)
+# Note: The full C++ implementation for Android is not yet complete.
+# This CMake file is a placeholder. The actual WASM runtime will be
+# integrated via JNI in a future update. Currently the Android module
+# provides stub implementations that throw UnsupportedOperationException.
+#
+# See: https://github.com/callstackincubator/polygen/issues/132
 
-add_library(react-native-wasm            SHARED
-            ../cpp/react-native-wasm.cpp
-            cpp-adapter.cpp
-)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_CXX_STANDARD 17)
 
-# Specifies a path to native header files.
-include_directories(
-            ../cpp
-)
+# Placeholder - no native sources to compile yet
+# The ReactNativePolygen C++ code needs to be properly integrated for Android

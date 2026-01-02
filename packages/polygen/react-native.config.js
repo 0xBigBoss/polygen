@@ -8,7 +8,8 @@ module.exports = {
   dependency: {
     platforms: {
       android: {
-        cmakeListsPath: 'build/generated/source/polygen/jni/CMakeLists.txt',
+        packageImportPath: 'import com.callstack.polygen.PolygenPackage;',
+        packageInstance: 'new PolygenPackage()',
       },
       ios: {},
     },

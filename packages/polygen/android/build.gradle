@@ -1,6 +1,6 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["Wasm_kotlinVersion"]
+  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["Polygen_kotlinVersion"]
 
   repositories {
     google()
@@ -31,11 +31,11 @@ if (isNewArchitectureEnabled()) {
 }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["Wasm_" + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["Polygen_" + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["Wasm_" + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["Polygen_" + name]).toInteger()
 }
 
 def supportsNamespace() {
@@ -49,7 +49,7 @@ def supportsNamespace() {
 
 android {
   if (supportsNamespace()) {
-    namespace "com.wasm"
+    namespace "com.callstack.polygen"
 
     sourceSets {
       main {
@@ -66,19 +66,22 @@ android {
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
-    externalNativeBuild {
-      cmake {
-        cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
-        abiFilters (*reactNativeArchitectures())
-      }
-    }
+    // Native build disabled - C++ implementation for Android is not yet complete
+    // See: https://github.com/callstackincubator/polygen/issues/132
+    // externalNativeBuild {
+    //   cmake {
+    //     cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
+    //     abiFilters (*reactNativeArchitectures())
+    //   }
+    // }
   }
 
-  externalNativeBuild {
-    cmake {
-      path "CMakeLists.txt"
-    }
-  }
+  // Native build disabled - C++ implementation for Android is not yet complete
+  // externalNativeBuild {
+  //   cmake {
+  //     path "CMakeLists.txt"
+  //   }
+  // }
 
   buildFeatures {
     buildConfig true
@@ -133,7 +136,7 @@ dependencies {
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "Wasm"
-    codegenJavaPackageName = "com.wasm"
+    libraryName = "RNPolygenSpec"
+    codegenJavaPackageName = "com.callstack.polygen"
   }
 }
