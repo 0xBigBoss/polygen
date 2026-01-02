@@ -73,7 +73,10 @@ android {
         cmake {
           cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
           abiFilters(*reactNativeArchitectures())
-          arguments "-DANDROID_STL=c++_shared"
+          // Pass app root directory to CMake so it can find .polygen-out/host/
+          // rootProject.projectDir points to the app's android directory
+          arguments "-DANDROID_STL=c++_shared",
+                    "-DPOLYGEN_APP_ROOT=${rootProject.projectDir.parent}"
         }
       }
     }

@@ -24,15 +24,24 @@
   - Navigation works (Import Validation screen)
   - C++ TurboModule registration working (no UnsatisfiedLinkError)
   - "Bridgeless mode is enabled" confirms new architecture active
+- [x] Phase 5: Android CMake integration infrastructure
+  - Created android-cmake.ts plugin in polygen-codegen
+  - Plugin generates CMakeLists.txt in .polygen-out/host/
+  - Modified polygen CMakeLists.txt to detect and include generated code
+  - Passes POLYGEN_APP_ROOT from Gradle to find app's .polygen-out/host/
+  - Generated code now compiling with correct include paths
 
-## Pending
-- [ ] Phase 5: Android integration for polygen-generated code
-  - iOS uses `ReactNativeWebAssemblyHost.podspec` to link generated native code
-  - Android needs equivalent mechanism (CMake include or separate AAR)
-  - Until implemented, modules return "not precompiled" errors as expected
+## In Progress
+- [ ] Phase 5: Fix wasm-rt API mismatch
+  - Generated C code calls `wasm_rt_allocate_memory` with 5 arguments
+  - Bundled wasm-rt.h defines function with 4 parameters
+  - This is a pre-existing wasm2c version mismatch, not Android-specific
 
 ## Blocked
-None
+- Pre-existing wasm2c API mismatch blocks module compilation
+  - The wasm2c tool generates code for a newer wasm-rt API than what's bundled
+  - This affects both iOS and Android builds
+  - Requires updating the bundled wasm-rt or regenerating code with matching wasm2c version
 
 ## Notes
 - App package: `com.callstack.polygen.example`
