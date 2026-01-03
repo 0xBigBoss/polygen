@@ -1,6 +1,11 @@
 #import "Wasm.h"
 #include <ReactCommon/CxxTurboModuleUtils.h>
 
+#if DEBUG
+#include "WasmTests.h"
+#include <cassert>
+#endif
+
 @implementation Wasm
 
 /**
@@ -9,6 +14,11 @@
  * For bridgeless mode, use getTurboModule:jsInvoker: from AppDelegate.
  */
 + (void)load {
+#if DEBUG
+  // Run unit tests in debug builds to verify getTurboModule logic
+  assert(polygen::tests::runAllTests() && "Wasm TurboModule tests failed");
+#endif
+
   facebook::react::registerCxxModuleToGlobalModuleMap(
     std::string(facebook::react::ReactNativePolygen::kModuleName),
     [](std::shared_ptr<facebook::react::CallInvoker> jsInvoker) {
