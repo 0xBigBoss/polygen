@@ -178,9 +178,11 @@ static bool os_has_altstack_installed() {
 
 /* These routines set up an altstack to handle SIGSEGV from stack overflow. */
 static void os_allocate_and_install_altstack(void) {
-  /* verify altstack not already allocated */
-  assert(!g_alt_stack &&
-         "wasm-rt error: tried to re-allocate thread-local alternate stack");
+  /* If altstack already allocated, return early to make init idempotent.
+   * This allows multiple ReactNativePolygen instances (e.g., in tests). */
+  if (g_alt_stack) {
+    return;
+  }
 
   /* We could check and warn if an altstack is already installed, but some
    * sanitizers install their own altstack, so this warning would fire
@@ -205,9 +207,10 @@ static void os_allocate_and_install_altstack(void) {
 }
 
 static void os_disable_and_deallocate_altstack(void) {
-  /* in debug build, verify altstack allocated */
-  assert(g_alt_stack &&
-         "wasm-rt error: thread-local alternate stack not allocated");
+  /* If altstack not allocated, return early (matches idempotent init). */
+  if (!g_alt_stack) {
+    return;
+  }
 
   /* verify altstack was still in place */
   stack_t ss;
@@ -304,7 +307,11 @@ bool wasm_rt_is_initialized(void) {
 }
 
 void wasm_rt_free(void) {
-  assert(wasm_rt_is_initialized());
+  /* Make free idempotent - return early if not initialized.
+   * This allows multiple ReactNativePolygen instances. */
+  if (!wasm_rt_is_initialized()) {
+    return;
+  }
 #if WASM_RT_INSTALL_SIGNAL_HANDLER
   os_cleanup_signal_handler();
   g_signal_handler_installed = false;

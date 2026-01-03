@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 #ifdef __cplusplus
 #import "ReactNativePolygen.h"
 #import <memory>
