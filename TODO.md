@@ -12,6 +12,7 @@
   - Tests verify module name matching, case sensitivity, and instance independence
   - Tests run during module initialization in DEBUG builds via assert()
   - Verified tests compile and pass via iOS build
+- [x] All verifications pass (iteration 2)
 
 ## In Progress
 None
