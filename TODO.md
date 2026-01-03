@@ -8,8 +8,9 @@
 - [x] Verify pod install succeeds with Wasm.h in public headers (iteration 1)
 - [x] Run all verifications: typecheck, lint, test pass (iteration 1)
 - [x] Add unit tests for getTurboModule:jsInvoker: bridgeless registration (iteration 2)
-  - Created WasmTests.h with compile-time test functions
-  - Tests verify module name matching, case sensitivity, and instance independence
+  - Created WasmTests.h with MockCallInvoker for C++ tests
+  - Refactored tests that call actual [Wasm getTurboModule:jsInvoker:] into Wasm.mm
+  - Tests verify: correct name returns module, wrong name returns nullptr, case sensitivity, independent instances
   - Tests run during module initialization in DEBUG builds via assert()
   - Verified tests compile and pass via iOS build
 - [x] All verifications pass (iteration 2)
