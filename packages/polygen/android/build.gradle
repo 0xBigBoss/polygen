@@ -66,31 +66,25 @@ android {
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
-    // C++ TurboModule build is only enabled for new architecture
-    // Old architecture uses the Java/Kotlin stub that throws UnsupportedOperationException
-    if (isNewArchitectureEnabled()) {
-      externalNativeBuild {
-        cmake {
-          cppFlags "-O2 -frtti -fexceptions -Wall -fstack-protector-all"
-          abiFilters(*reactNativeArchitectures())
-          // Pass app root directory to CMake so it can find .polygen-out/host/
-          // rootProject.projectDir points to the app's android directory
-          arguments "-DANDROID_STL=c++_shared",
-                    "-DPOLYGEN_APP_ROOT=${rootProject.projectDir.parent}"
-        }
-      }
-    }
+    // NOTE: C++ TurboModule build is handled via app autolinking in RN 0.76+
+    // The cmake configuration is no longer needed here since the native code
+    // is built as part of the app's cmake build through ReactNative-application.cmake
   }
 
-  // Only configure CMake when new architecture is enabled
-  // The C++ sources require codegen-generated headers that only exist with new arch
-  if (isNewArchitectureEnabled()) {
-    externalNativeBuild {
-      cmake {
-        path "CMakeLists.txt"
-      }
-    }
-  }
+  // NOTE: CMake build is handled via app autolinking in RN 0.76+
+  // The library's CMakeLists.txt is included in the app's cmake build via
+  // React Native's autolinking cmake. We don't need externalNativeBuild here
+  // because the prefab packages are only available in the app context.
+  //
+  // See: https://reactnative.dev/docs/the-new-architecture/pillars-turbomodules
+  //
+  // if (isNewArchitectureEnabled()) {
+  //   externalNativeBuild {
+  //     cmake {
+  //       path "CMakeLists.txt"
+  //     }
+  //   }
+  // }
 
   buildFeatures {
     buildConfig true
