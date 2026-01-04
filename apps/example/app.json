@@ -1,28 +1,16 @@
 {
-  "name": "ReactNativePolygen",
-  "displayName": "ReactNativePolygen",
-  "singleApp": "polygen-example",
-  "components": [
-    {
-      "appKey": "ReactNativePolygen",
-      "displayName": "ReactNativePolygen",
-      "slug": "polygen-example"
-    }
-  ],
-  "resources": {
-    "android": ["dist/res", "dist/main.android.jsbundle"],
-    "ios": ["dist/assets", "dist/main.ios.jsbundle"],
-    "macos": ["dist/assets", "dist/main.macos.jsbundle"],
-    "visionos": ["dist/assets", "dist/main.visionos.jsbundle"],
-    "windows": ["dist/assets", "dist/main.windows.bundle"]
-  },
-  "android": {
-    "package": "com.callstack.polygen.example"
-  },
-  "ios": {
-    "bundleIdentifier": "com.callstack.polygen.example",
-    "codeSignEntitlements": {
-      "com.apple.developer.game-center": true
+  "expo": {
+    "name": "PolygenExample",
+    "slug": "polygen-example",
+    "version": "1.0.0",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.callstack.polygen.example",
+      "newArchEnabled": true
+    },
+    "android": {
+      "package": "com.callstack.polygen.example",
+      "newArchEnabled": true
     }
   }
 }

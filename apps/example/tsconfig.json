@@ -5,7 +5,11 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "dist",
-    "jsx": "preserve",
+    "jsx": "react-native",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "types": ["@callstack/polygen-metro-config", "@callstack/polygen"]
   }
 }

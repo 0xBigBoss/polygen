@@ -1,55 +1,24 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 buildscript {
-    apply(from: {
-        def searchDir = rootDir.toPath()
-        do {
-            def p = searchDir.resolve("node_modules/react-native-test-app/android/dependencies.gradle")
-            if (p.toFile().exists()) {
-                return p.toRealPath().toString()
-            }
-        } while (searchDir = searchDir.getParent())
-        throw new GradleException("Could not find `react-native-test-app`");
-    }())
-
-    repositories {
-        mavenCentral()
-        google()
-    }
-
-    dependencies {
-        getReactNativeDependencies().each { dependency ->
-            classpath(dependency)
-        }
-    }
+  repositories {
+    google()
+    mavenCentral()
+  }
+  dependencies {
+    classpath('com.android.tools.build:gradle')
+    classpath('com.facebook.react:react-native-gradle-plugin')
+    classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
+  }
 }
 
 allprojects {
-    repositories {
-        maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url({
-                def searchDir = rootDir.toPath()
-                do {
-                    def p = searchDir.resolve("node_modules/react-native/android")
-                    if (p.toFile().exists()) {
-                        return p.toRealPath().toString()
-                    }
-                } while (searchDir = searchDir.getParent())
-                throw new GradleException("Could not find `react-native`");
-            }())
-        }
-        mavenCentral()
-        google()
-    }
+  repositories {
+    google()
+    mavenCentral()
+    maven { url 'https://www.jitpack.io' }
+  }
 }
 
-
-// Configure react-native in app subproject after plugin is applied
-subprojects {
-    afterEvaluate { project ->
-        if (project.plugins.hasPlugin("com.facebook.react")) {
-            project.react {
-                bundleCommand = "webpack-bundle"
-            }
-        }
-    }
-}
+apply plugin: "expo-root-project"
+apply plugin: "com.facebook.react.rootproject"

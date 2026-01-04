@@ -1,40 +1,28 @@
-# TODO - iOS Bridgeless TurboModule Fix
+# TODO - iOS Bridgeless TurboModule Implementation
 
 ## Completed
-- [x] Add getTurboModule:jsInvoker: method to Wasm class (iteration 1)
-- [x] Move Wasm.h and Wasm.mm to cpp/ReactNativePolygen for proper header mapping (iteration 1)
-- [x] Update podspec to include .mm files and fix header paths (iteration 1)
-- [x] Run polygen generate to create ReactNativeWebAssemblyHost podspec (iteration 1)
-- [x] Verify pod install succeeds with Wasm.h in public headers (iteration 1)
-- [x] Run all verifications: typecheck, lint, test pass (iteration 1)
-- [x] Add unit tests for getTurboModule:jsInvoker: bridgeless registration (iteration 2)
-  - Created WasmTests.h with MockCallInvoker for C++ tests
-  - Refactored tests that call actual [Wasm getTurboModule:jsInvoker:] into Wasm.mm
-  - Tests verify: correct name returns module, wrong name returns nullptr, case sensitivity, independent instances
-  - Tests run during module initialization in DEBUG builds via assert()
-  - Verified tests compile and pass via iOS build
-- [x] All verifications pass (iteration 2)
+- [x] Create packages/polygen/ios/PolygenModule.h (iteration 1)
+- [x] Create packages/polygen/ios/PolygenModule.mm with RCT_EXPORT_MODULE, requiresMainQueueSetup, getTurboModule (iteration 1)
+- [x] Create packages/polygen/ios/PolygenModuleTests.mm with unit tests (iteration 1)
+- [x] Update packages/polygen/ReactNativePolygen.podspec with ios sources, exclude_files, test_spec (iteration 1)
+- [x] Update packages/polygen/package.json to React 18.2.0 and RN 0.76.0 (iteration 1)
+- [x] Delete legacy Wasm.h and Wasm.mm files (iteration 1)
+- [x] Create new Expo bare workflow example app with SDK 54 (iteration 1)
+- [x] Fix example app TypeScript errors (iteration 1)
+- [x] yarn typecheck passes (iteration 1)
+- [x] yarn lint passes (iteration 1)
+- [x] iOS pod install works (iteration 1)
 
 ## In Progress
-None
+- [ ] None
 
 ## Pending
-None
+- [ ] None
 
 ## Blocked
-None
+- [ ] None
 
 ## Notes
-- The fix adds a public `getTurboModule:jsInvoker:` method that app developers call from AppDelegate in bridgeless mode
-- The `+load` registration is preserved for backward compatibility with bridged mode
-- Moved Wasm.h/mm from ios/ to cpp/ReactNativePolygen/ so they're included in header_mappings_dir
-- Import path: `<ReactNativePolygen/Wasm.h>`
-- Unit tests are header-only (WasmTests.h) and run via assert() in DEBUG builds during +load
-
-## Verification Summary
-All checks pass:
-1. yarn typecheck - 16 tasks successful
-2. yarn lint - No fixes needed
-3. yarn test - 38 tests passed
-4. pod install - Complete with 71 pods, Wasm.h properly exposed
-5. xcodebuild - BUILD SUCCEEDED (tests compile and run during module initialization)
+- Example app uses RN 0.81.5 and Expo SDK 54 (newer than spec minimum of 0.76)
+- All verification commands pass
+- ReactNativePolygen pod installs successfully with new ObjC wrapper

@@ -9,7 +9,7 @@ import module from 'simple-sha256-wasm/simple_sha256_wasm_bg.wasm';
 let loaded = false;
 
 export default function ExternalModuleExample() {
-  const [_, dispatch] = useReducer(() => {}, 0);
+  const [_, dispatch] = useReducer((x: number) => x + 1, 0);
 
   return (
     <View style={styles.container}>

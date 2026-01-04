@@ -14,9 +14,23 @@ Pod::Spec.new do |s|
   s.platforms    = { :ios => min_ios_version_supported }
   s.source       = { :git => "https://github.com/callstack/polygen.git", :tag => "#{s.version}" }
 
-  s.source_files = "cpp/ReactNativePolygen/**/*.{hpp,cpp,c,h,mm}"
-  s.public_header_files = "cpp/ReactNativePolygen/**/*.h"
+  s.source_files = [
+    "cpp/ReactNativePolygen/**/*.{hpp,cpp,c,h,mm}",
+    "ios/**/*.{h,m,mm}"
+  ]
+  s.exclude_files = [
+    "ios/**/*Tests.mm"
+  ]
+  s.public_header_files = [
+    "cpp/ReactNativePolygen/**/*.h",
+    "ios/**/*.h"
+  ]
   s.header_mappings_dir = "cpp/ReactNativePolygen"
+
+  s.test_spec 'Tests' do |test_spec|
+    test_spec.source_files = 'ios/**/*Tests.mm'
+    test_spec.frameworks = 'XCTest'
+  end
 
   # Use install_modules_dependencies helper to install the dependencies if React Native version >=0.71.0.
   # See https://github.com/facebook/react-native/blob/febf6b7f33fdb4904669f99d795eba4c0f95d7bf/scripts/cocoapods/new_architecture.rb#L79.
