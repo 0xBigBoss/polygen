@@ -1,3 +1,4 @@
+import { isPolygenAvailable } from './NativePolygen';
 import { Global } from './api/Global';
 import { Instance } from './api/Instance';
 import { Memory } from './api/Memory';
@@ -30,6 +31,9 @@ const impl = {
 export type Schema = typeof impl;
 
 export const WebAssembly = impl;
+
+// Re-export isPolygenAvailable for checking TurboModule availability
+export { isPolygenAvailable };
 
 // Taken from https://github.com/microsoft/TypeScript/blob/main/src/lib/dom.generated.d.ts#L27309
 type BufferSource = ArrayBufferView | ArrayBuffer;

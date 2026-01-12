@@ -182,4 +182,50 @@ export interface Spec extends TurboModule {
   getTableSize(instance: OpaqueTableNativeHandle): number;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('Polygen');
+// Lazy loading wrapper to avoid module-level getEnforcing call
+// This prevents errors when the module is imported but TurboModules aren't ready
+let _nativeModule: Spec | null = null;
+let _loadAttempted = false;
+
+// Single call site for TurboModuleRegistry.get to satisfy RN codegen
+// (codegen requires exactly one module load per spec file)
+function loadModule(): void {
+  if (!_loadAttempted) {
+    _loadAttempted = true;
+    _nativeModule = TurboModuleRegistry.get<Spec>('Polygen');
+  }
+}
+
+function getNativeModule(): Spec {
+  loadModule();
+  if (!_nativeModule) {
+    throw new Error(
+      '[Polygen] TurboModule not available. ' +
+        'Ensure the native module is properly linked and the app was rebuilt.'
+    );
+  }
+  return _nativeModule;
+}
+
+/**
+ * Check if the Polygen TurboModule is available.
+ * Use this to conditionally enable WebAssembly features.
+ */
+export function isPolygenAvailable(): boolean {
+  loadModule();
+  return _nativeModule !== null;
+}
+
+// Export a proxy that lazily loads the native module on first property access
+const lazyProxy = new Proxy({} as Spec, {
+  get(_target, prop) {
+    const module = getNativeModule();
+    const value = module[prop as keyof Spec];
+    if (typeof value === 'function') {
+      return value.bind(module);
+    }
+    return value;
+  },
+});
+
+export default lazyProxy;
