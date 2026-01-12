@@ -32,40 +32,35 @@ Pod::Spec.new do |s|
     test_spec.frameworks = 'XCTest'
   end
 
+  # iOS cannot reserve the full 4GB wasm memory with mmap (os_mmap failed).
+  # Force malloc/calloc to allocate only the initial memory size instead.
+  mmap_xcconfig = {
+    "GCC_PREPROCESSOR_DEFINITIONS" => "$(inherited) WASM_RT_USE_MMAP=0",
+  }
+
   # Use install_modules_dependencies helper to install the dependencies if React Native version >=0.71.0.
   # See https://github.com/facebook/react-native/blob/febf6b7f33fdb4904669f99d795eba4c0f95d7bf/scripts/cocoapods/new_architecture.rb#L79.
   if respond_to?(:install_modules_dependencies, true)
     install_modules_dependencies(s)
+    s.pod_target_xcconfig = mmap_xcconfig
   else
     s.dependency "React-Core"
 
     # Don't install the dependencies when we run `pod install` in the old architecture.
     if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
       s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
-      s.pod_target_xcconfig    = {
+      s.pod_target_xcconfig = mmap_xcconfig.merge({
           "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\"",
           "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1",
-          "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
-      }
+          "CLANG_CXX_LANGUAGE_STANDARD" => "c++17",
+      })
       s.dependency "DoubleConversion"
       s.dependency "RCT-Folly"
       s.dependency "RCTRequired"
       s.dependency "RCTTypeSafety"
       s.dependency "ReactCommon/turbomodule/core"
-    end
-  end
-
-  # iOS cannot reserve the full 4GB wasm memory with mmap (os_mmap failed).
-  # Force malloc/calloc to allocate only the initial memory size instead.
-  s.pod_target_xcconfig ||= {}
-  gcc_definitions = s.pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"]
-  if gcc_definitions.nil?
-    s.pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) WASM_RT_USE_MMAP=0'
-  elsif gcc_definitions.is_a?(Array)
-    gcc_definitions << 'WASM_RT_USE_MMAP=0' unless gcc_definitions.include?('WASM_RT_USE_MMAP=0')
-  else
-    unless gcc_definitions.to_s.include?('WASM_RT_USE_MMAP=0')
-      s.pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = "#{gcc_definitions} WASM_RT_USE_MMAP=0"
+    else
+      s.pod_target_xcconfig = mmap_xcconfig
     end
   end
 
