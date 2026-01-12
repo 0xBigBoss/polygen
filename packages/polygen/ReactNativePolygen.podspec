@@ -55,6 +55,20 @@ Pod::Spec.new do |s|
     end
   end
 
+  # iOS cannot reserve the full 4GB wasm memory with mmap (os_mmap failed).
+  # Force malloc/calloc to allocate only the initial memory size instead.
+  s.pod_target_xcconfig ||= {}
+  gcc_definitions = s.pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"]
+  if gcc_definitions.nil?
+    s.pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) WASM_RT_USE_MMAP=0'
+  elsif gcc_definitions.is_a?(Array)
+    gcc_definitions << 'WASM_RT_USE_MMAP=0' unless gcc_definitions.include?('WASM_RT_USE_MMAP=0')
+  else
+    unless gcc_definitions.to_s.include?('WASM_RT_USE_MMAP=0')
+      s.pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = "#{gcc_definitions} WASM_RT_USE_MMAP=0"
+    end
+  end
+
   s.subspec "Runtime" do |ss|
     ss.source_files = "cpp/wasm-rt/**/*.{hpp,cpp,c,h}"
     ss.public_header_files = "cpp/wasm-rt/**/*.h"
