@@ -94,6 +94,11 @@
     "name": "RNPolygenSpec",
     "type": "modules",
     "jsSrcsDir": "src",
+    "ios": {
+      "modulesProvider": {
+        "Polygen": "PolygenModule"
+      }
+    },
     "android": {
       "javaPackageName": "com.callstack.polygen"
     }
