@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 // TODO: clean only generated files (not whole directory)
-import type { Project } from '@callstack/polygen-project';
+import type { Project } from '@0xbigboss/polygen-project';
 import chalk from 'chalk';
 import { oraPromise } from 'ora';
 

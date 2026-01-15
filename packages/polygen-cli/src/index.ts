@@ -4,7 +4,7 @@ import {
   InvalidProjectConfigurationError,
   ProjectConfigurationNotFound,
   UnknownProjectError,
-} from '@callstack/polygen-config/find';
+} from '@0xbigboss/polygen-config/find';
 import chalk from 'chalk';
 import { Command } from 'commander';
 import consola from 'consola';

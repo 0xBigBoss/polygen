@@ -1,6 +1,6 @@
 {
-  "name": "@callstack/polygen-config",
-  "version": "0.2.1",
+  "name": "@0xbigboss/polygen-config",
+  "version": "0.1.1",
   "description": "Package for building Polygen configuration and working with it",
   "main": "./dist/index.js",
   "type": "commonjs",
@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@callstack/polygen-typescript-config": "workspace:^",
+    "@0xbigboss/polygen-typescript-config": "workspace:^",
     "typescript": "^5.7.2"
   }
 }

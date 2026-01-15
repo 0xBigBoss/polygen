@@ -1,5 +1,5 @@
-import type { Codegen, W2CGeneratedModule } from '@callstack/polygen-codegen';
-import type { PolygenModuleConfig, Project } from '@callstack/polygen-project';
+import type { Codegen, W2CGeneratedModule } from '@0xbigboss/polygen-codegen';
+import type { PolygenModuleConfig, Project } from '@0xbigboss/polygen-project';
 
 export interface CodegenPlugin {
   name: string;

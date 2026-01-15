@@ -1,4 +1,4 @@
-import type { ResolvedPolygenConfig } from '@callstack/polygen-config';
+import type { ResolvedPolygenConfig } from '@0xbigboss/polygen-config';
 import {
   InvalidProjectConfigurationError,
   ProjectConfigurationNotFound,
@@ -6,7 +6,7 @@ import {
   findConfigFileSync,
   findProjectRoot,
   findProjectRootSync,
-} from '@callstack/polygen-config/find';
+} from '@0xbigboss/polygen-config/find';
 import deepmerge from 'deepmerge';
 import { ProjectModules } from './project.modules';
 import { ProjectPaths } from './project.paths';

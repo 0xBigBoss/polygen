@@ -1,6 +1,6 @@
 import path from 'node:path';
-import type { PolygenModuleConfig } from '@callstack/polygen-config';
-import type { Module, ModuleMemory, ModuleTable } from '@callstack/wasm-parser';
+import type { PolygenModuleConfig } from '@0xbigboss/polygen-config';
+import type { Module, ModuleMemory, ModuleTable } from '@0xbigboss/wasm-parser';
 import { mangleModuleName } from '../wasm2c/mangle.js';
 import type { CodegenContext } from './context.js';
 import type {

@@ -2,7 +2,7 @@ import type {
   PolygenExternalModuleConfig,
   PolygenLocalModuleConfig,
   PolygenModuleConfig,
-} from '@callstack/polygen-config';
+} from '@0xbigboss/polygen-config';
 
 export interface ModuleResolutionInfo {
   resolvedPath: string;

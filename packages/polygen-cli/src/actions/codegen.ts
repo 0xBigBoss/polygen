@@ -4,9 +4,9 @@ import {
   type GeneratedSymbol,
   type PluginDispatchOptions,
   type W2CGeneratedModule,
-} from '@callstack/polygen-codegen';
-import type { GeneratedEntityKind } from '@callstack/polygen-codegen';
-import { Project, type ResolvedModule } from '@callstack/polygen-project';
+} from '@0xbigboss/polygen-codegen';
+import type { GeneratedEntityKind } from '@0xbigboss/polygen-codegen';
+import { Project, type ResolvedModule } from '@0xbigboss/polygen-project';
 import chalk from 'chalk';
 import consola from 'consola';
 import { oraPromise } from 'ora';

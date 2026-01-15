@@ -1,5 +1,5 @@
 /// <reference path="../types/WebAssembly-global.d.ts" preserve="true" />
-import { WebAssembly } from '@callstack/polygen';
+import { WebAssembly } from '@0xbigboss/polygen';
 global.WebAssembly = Object.freeze(WebAssembly) as any;
 
 // TODO: remove

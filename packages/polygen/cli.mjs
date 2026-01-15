@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-import '@callstack/polygen-cli';
+import '@0xbigboss/polygen-cli';

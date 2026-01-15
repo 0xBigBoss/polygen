@@ -2,10 +2,10 @@ import {
   externalModule,
   localModule,
   polygenConfig,
-} from '@callstack/polygen-config';
+} from '@0xbigboss/polygen-config';
 
 /**
- * @type {import('@callstack/polygen/config').PolygenConfig}
+ * @type {import('@0xbigboss/polygen/config').PolygenConfig}
  */
 export default polygenConfig({
   /**

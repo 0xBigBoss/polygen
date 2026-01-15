@@ -1,4 +1,4 @@
-import { Project } from '@callstack/polygen-project';
+import { Project } from '@0xbigboss/polygen-project';
 import { Command } from 'commander';
 import type { GlobalOptions } from '../types.js';
 

@@ -1,6 +1,6 @@
 {
-  "name": "@callstack/polygen-binary-utils",
-  "version": "0.1.0",
+  "name": "@0xbigboss/polygen-binary-utils",
+  "version": "0.1.1",
   "description": "Helpers for working with binary data",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -16,7 +16,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "@callstack/polygen-typescript-config": "workspace:^",
+    "@0xbigboss/polygen-typescript-config": "workspace:^",
     "@types/node": "^22.10.0",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"

@@ -2,7 +2,7 @@ import path from 'node:path';
 import type {
   PolygenModuleConfig,
   ResolvedPolygenOutputConfig,
-} from '@callstack/polygen-config';
+} from '@0xbigboss/polygen-config';
 import consola from 'consola';
 import type { W2CGeneratedModule } from '../codegen/modules.js';
 import type { OutputGenerator } from '../helpers/output-generator.js';

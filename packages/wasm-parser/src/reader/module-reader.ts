@@ -2,7 +2,7 @@ import {
   BinaryReader,
   ByteOrder,
   arrayBuffersEqual,
-} from '@callstack/polygen-binary-utils';
+} from '@0xbigboss/polygen-binary-utils';
 import { WebAssemblyDecodeError } from './errors.js';
 import { readSections } from './section-reader.js';
 

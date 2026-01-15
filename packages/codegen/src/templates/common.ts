@@ -1,4 +1,4 @@
-import type { RefType, ValueType } from '@callstack/wasm-parser';
+import type { RefType, ValueType } from '@0xbigboss/wasm-parser';
 
 export const HEADER = `
 //

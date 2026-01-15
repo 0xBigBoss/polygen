@@ -4,7 +4,7 @@ import path from 'node:path';
 import {
   findConfigFile,
   findProjectRoot,
-} from '@callstack/polygen-config/find';
+} from '@0xbigboss/polygen-config/find';
 import chalk from 'chalk';
 import { Command, Option } from 'commander';
 import consola from 'consola';
@@ -54,9 +54,9 @@ async function maybeAddDeps(
     'Expected dependencies to be an object'
   );
 
-  if ('@callstack/polygen' in dependencies) {
+  if ('@0xbigboss/polygen' in dependencies) {
     consola.debug(
-      "@callstack/polygen is already in project's dependencies, skipping..."
+      "@0xbigboss/polygen is already in project's dependencies, skipping..."
     );
     return false;
   }
@@ -76,12 +76,12 @@ async function maybeAddDeps(
 
   if (shouldAdd) {
     await oraPromise(
-      () => addDependency('@callstack/polygen', { silent: !verbose }),
+      () => addDependency('@0xbigboss/polygen', { silent: !verbose }),
       'Installing Polygen'
     );
   } else {
     const addCommand = pm.name === 'yarn' ? 'add' : 'install';
-    const command = `${pm.name} ${addCommand} @callstack/polygen`;
+    const command = `${pm.name} ${addCommand} @0xbigboss/polygen`;
     consola.info(
       `You can install Polygen later by running: ${chalk.bold(command)}`
     );

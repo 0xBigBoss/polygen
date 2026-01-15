@@ -1,6 +1,6 @@
 {
-  "name": "@callstack/wasm-parser",
-  "version": "0.1.0",
+  "name": "@0xbigboss/wasm-parser",
+  "version": "0.1.1",
   "description": "Parser for the WebAssembly binary format",
   "license": "MIT",
   "main": "./dist/index.js",
@@ -16,7 +16,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@callstack/polygen-binary-utils": "0.1.0"
+    "@0xbigboss/polygen-binary-utils": "0.1.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

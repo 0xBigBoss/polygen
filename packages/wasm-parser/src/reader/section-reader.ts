@@ -1,4 +1,4 @@
-import type { BinaryReader } from '@callstack/polygen-binary-utils';
+import type { BinaryReader } from '@0xbigboss/polygen-binary-utils';
 import { WebAssemblyDecodeError } from './errors.js';
 import {
   readFunctionType,

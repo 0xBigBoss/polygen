@@ -5,6 +5,143 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
+"@0xbigboss/polygen-binary-utils@npm:0.1.1, @0xbigboss/polygen-binary-utils@workspace:packages/binary-utils":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/polygen-binary-utils@workspace:packages/binary-utils"
+  dependencies:
+    "@0xbigboss/polygen-typescript-config": "workspace:^"
+    "@types/node": "npm:^22.10.0"
+    typescript: "npm:^5.7.2"
+    vitest: "npm:^2.1.8"
+  languageName: unknown
+  linkType: soft
+
+"@0xbigboss/polygen-cli@npm:0.1.1, @0xbigboss/polygen-cli@workspace:^, @0xbigboss/polygen-cli@workspace:packages/polygen-cli":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/polygen-cli@workspace:packages/polygen-cli"
+  dependencies:
+    "@0xbigboss/polygen-codegen": "npm:0.1.1"
+    "@0xbigboss/polygen-project": "npm:0.1.1"
+    "@0xbigboss/polygen-typescript-config": "workspace:^"
+    chalk: "npm:^5.3.0"
+    commander: "npm:^12.1.0"
+    consola: "npm:^3.4.0"
+    core-js: "npm:^3.40.0"
+    globby: "npm:^14.0.2"
+    nypm: "npm:^0.5.2"
+    ora: "npm:^8.1.0"
+    typescript: "npm:^5.7.2"
+  bin:
+    polygen-cli: bin/polygen.js
+  languageName: unknown
+  linkType: soft
+
+"@0xbigboss/polygen-codegen@npm:0.1.1, @0xbigboss/polygen-codegen@workspace:packages/codegen":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/polygen-codegen@workspace:packages/codegen"
+  dependencies:
+    "@0xbigboss/polygen-binary-utils": "npm:0.1.1"
+    "@0xbigboss/polygen-project": "npm:0.1.1"
+    "@0xbigboss/polygen-typescript-config": "workspace:^"
+    "@0xbigboss/wasm-parser": "npm:0.1.1"
+    "@types/node": "npm:^22.10.0"
+    execa: "npm:^9.4.1"
+    indent-string: "npm:^5.0.0"
+    strip-indent: "npm:^4.0.0"
+    typescript: "npm:^5.7.2"
+  languageName: unknown
+  linkType: soft
+
+"@0xbigboss/polygen-config@npm:0.1.1, @0xbigboss/polygen-config@workspace:^, @0xbigboss/polygen-config@workspace:packages/polygen-config":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/polygen-config@workspace:packages/polygen-config"
+  dependencies:
+    "@0xbigboss/polygen-typescript-config": "workspace:^"
+    typescript: "npm:^5.7.2"
+  languageName: unknown
+  linkType: soft
+
+"@0xbigboss/polygen-metro-config@workspace:^, @0xbigboss/polygen-metro-config@workspace:packages/metro-config":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/polygen-metro-config@workspace:packages/metro-config"
+  dependencies:
+    "@0xbigboss/polygen-project": "npm:0.1.1"
+    "@0xbigboss/polygen-typescript-config": "workspace:^"
+    typescript: "npm:^5.7.2"
+  languageName: unknown
+  linkType: soft
+
+"@0xbigboss/polygen-project@npm:0.1.1, @0xbigboss/polygen-project@workspace:packages/polygen-project":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/polygen-project@workspace:packages/polygen-project"
+  dependencies:
+    "@0xbigboss/polygen-config": "npm:0.1.1"
+    "@0xbigboss/polygen-typescript-config": "workspace:^"
+    deepmerge: "npm:^4.3.1"
+    find-up: "npm:^5.0.0"
+    glob: "npm:^11.0.0"
+    typescript: "npm:^5.7.2"
+  languageName: unknown
+  linkType: soft
+
+"@0xbigboss/polygen-root@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/polygen-root@workspace:."
+  dependencies:
+    "@biomejs/biome": "npm:1.9.4"
+    "@changesets/changelog-github": "npm:^0.5.0"
+    "@changesets/cli": "npm:^2.27.12"
+    "@commitlint/config-conventional": "npm:^17.0.2"
+    "@evilmartians/lefthook": "npm:^1.5.0"
+    "@react-native/eslint-config": "npm:^0.73.1"
+    "@release-it/conventional-changelog": "npm:^5.0.0"
+    commitlint: "npm:^17.0.2"
+    release-it: "npm:^15.0.0"
+    turbo: "npm:^2.3.3"
+    typescript: "npm:^5.2.2"
+    vitest: "npm:^2.1.8"
+  languageName: unknown
+  linkType: soft
+
+"@0xbigboss/polygen-typescript-config@workspace:^, @0xbigboss/polygen-typescript-config@workspace:packages/typescript-config":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/polygen-typescript-config@workspace:packages/typescript-config"
+  languageName: unknown
+  linkType: soft
+
+"@0xbigboss/polygen@workspace:^, @0xbigboss/polygen@workspace:packages/polygen":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/polygen@workspace:packages/polygen"
+  dependencies:
+    "@0xbigboss/polygen-cli": "npm:0.1.1"
+    "@0xbigboss/polygen-typescript-config": "workspace:^"
+    "@react-native-community/cli": "npm:^15.1.3"
+    "@types/react": "npm:^18.2.44"
+    del-cli: "npm:^5.1.0"
+    react: "npm:17.0.2"
+    react-native: "npm:0.75.4"
+    react-native-builder-bob: "npm:^0.30.2"
+    release-it: "npm:^15.0.0"
+    turbo: "npm:^1.10.7"
+    typescript: "npm:^5.2.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  bin:
+    polygen: cli.mjs
+  languageName: unknown
+  linkType: soft
+
+"@0xbigboss/wasm-parser@npm:0.1.1, @0xbigboss/wasm-parser@workspace:packages/wasm-parser":
+  version: 0.0.0-use.local
+  resolution: "@0xbigboss/wasm-parser@workspace:packages/wasm-parser"
+  dependencies:
+    "@0xbigboss/polygen-binary-utils": "npm:0.1.1"
+    "@types/node": "npm:^22.10.0"
+    typescript: "npm:^5.7.2"
+  languageName: unknown
+  linkType: soft
+
 "@ampproject/remapping@npm:^2.2.0":
   version: 2.3.0
   resolution: "@ampproject/remapping@npm:2.3.0"
@@ -1552,143 +1689,6 @@ __metadata:
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
-
-"@callstack/polygen-binary-utils@npm:0.1.0, @callstack/polygen-binary-utils@workspace:packages/binary-utils":
-  version: 0.0.0-use.local
-  resolution: "@callstack/polygen-binary-utils@workspace:packages/binary-utils"
-  dependencies:
-    "@callstack/polygen-typescript-config": "workspace:^"
-    "@types/node": "npm:^22.10.0"
-    typescript: "npm:^5.7.2"
-    vitest: "npm:^2.1.8"
-  languageName: unknown
-  linkType: soft
-
-"@callstack/polygen-cli@npm:0.2.1, @callstack/polygen-cli@workspace:^, @callstack/polygen-cli@workspace:packages/polygen-cli":
-  version: 0.0.0-use.local
-  resolution: "@callstack/polygen-cli@workspace:packages/polygen-cli"
-  dependencies:
-    "@callstack/polygen-codegen": "npm:0.2.1"
-    "@callstack/polygen-project": "npm:0.2.1"
-    "@callstack/polygen-typescript-config": "workspace:^"
-    chalk: "npm:^5.3.0"
-    commander: "npm:^12.1.0"
-    consola: "npm:^3.4.0"
-    core-js: "npm:^3.40.0"
-    globby: "npm:^14.0.2"
-    nypm: "npm:^0.5.2"
-    ora: "npm:^8.1.0"
-    typescript: "npm:^5.7.2"
-  bin:
-    polygen-cli: bin/polygen.js
-  languageName: unknown
-  linkType: soft
-
-"@callstack/polygen-codegen@npm:0.2.1, @callstack/polygen-codegen@workspace:packages/codegen":
-  version: 0.0.0-use.local
-  resolution: "@callstack/polygen-codegen@workspace:packages/codegen"
-  dependencies:
-    "@callstack/polygen-binary-utils": "npm:0.1.0"
-    "@callstack/polygen-project": "npm:0.2.1"
-    "@callstack/polygen-typescript-config": "workspace:^"
-    "@callstack/wasm-parser": "npm:0.1.0"
-    "@types/node": "npm:^22.10.0"
-    execa: "npm:^9.4.1"
-    indent-string: "npm:^5.0.0"
-    strip-indent: "npm:^4.0.0"
-    typescript: "npm:^5.7.2"
-  languageName: unknown
-  linkType: soft
-
-"@callstack/polygen-config@npm:0.2.1, @callstack/polygen-config@workspace:^, @callstack/polygen-config@workspace:packages/polygen-config":
-  version: 0.0.0-use.local
-  resolution: "@callstack/polygen-config@workspace:packages/polygen-config"
-  dependencies:
-    "@callstack/polygen-typescript-config": "workspace:^"
-    typescript: "npm:^5.7.2"
-  languageName: unknown
-  linkType: soft
-
-"@callstack/polygen-metro-config@workspace:^, @callstack/polygen-metro-config@workspace:packages/metro-config":
-  version: 0.0.0-use.local
-  resolution: "@callstack/polygen-metro-config@workspace:packages/metro-config"
-  dependencies:
-    "@callstack/polygen-project": "npm:0.2.1"
-    "@callstack/polygen-typescript-config": "workspace:^"
-    typescript: "npm:^5.7.2"
-  languageName: unknown
-  linkType: soft
-
-"@callstack/polygen-project@npm:0.2.1, @callstack/polygen-project@workspace:packages/polygen-project":
-  version: 0.0.0-use.local
-  resolution: "@callstack/polygen-project@workspace:packages/polygen-project"
-  dependencies:
-    "@callstack/polygen-config": "npm:0.2.1"
-    "@callstack/polygen-typescript-config": "workspace:^"
-    deepmerge: "npm:^4.3.1"
-    find-up: "npm:^5.0.0"
-    glob: "npm:^11.0.0"
-    typescript: "npm:^5.7.2"
-  languageName: unknown
-  linkType: soft
-
-"@callstack/polygen-root@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@callstack/polygen-root@workspace:."
-  dependencies:
-    "@biomejs/biome": "npm:1.9.4"
-    "@changesets/changelog-github": "npm:^0.5.0"
-    "@changesets/cli": "npm:^2.27.12"
-    "@commitlint/config-conventional": "npm:^17.0.2"
-    "@evilmartians/lefthook": "npm:^1.5.0"
-    "@react-native/eslint-config": "npm:^0.73.1"
-    "@release-it/conventional-changelog": "npm:^5.0.0"
-    commitlint: "npm:^17.0.2"
-    release-it: "npm:^15.0.0"
-    turbo: "npm:^2.3.3"
-    typescript: "npm:^5.2.2"
-    vitest: "npm:^2.1.8"
-  languageName: unknown
-  linkType: soft
-
-"@callstack/polygen-typescript-config@workspace:^, @callstack/polygen-typescript-config@workspace:packages/typescript-config":
-  version: 0.0.0-use.local
-  resolution: "@callstack/polygen-typescript-config@workspace:packages/typescript-config"
-  languageName: unknown
-  linkType: soft
-
-"@callstack/polygen@workspace:^, @callstack/polygen@workspace:packages/polygen":
-  version: 0.0.0-use.local
-  resolution: "@callstack/polygen@workspace:packages/polygen"
-  dependencies:
-    "@callstack/polygen-cli": "npm:0.2.1"
-    "@callstack/polygen-typescript-config": "workspace:^"
-    "@react-native-community/cli": "npm:^15.1.3"
-    "@types/react": "npm:^18.2.44"
-    del-cli: "npm:^5.1.0"
-    react: "npm:17.0.2"
-    react-native: "npm:0.75.4"
-    react-native-builder-bob: "npm:^0.30.2"
-    release-it: "npm:^15.0.0"
-    turbo: "npm:^1.10.7"
-    typescript: "npm:^5.2.2"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  bin:
-    polygen: cli.mjs
-  languageName: unknown
-  linkType: soft
-
-"@callstack/wasm-parser@npm:0.1.0, @callstack/wasm-parser@workspace:packages/wasm-parser":
-  version: 0.0.0-use.local
-  resolution: "@callstack/wasm-parser@workspace:packages/wasm-parser"
-  dependencies:
-    "@callstack/polygen-binary-utils": "npm:0.1.0"
-    "@types/node": "npm:^22.10.0"
-    typescript: "npm:^5.7.2"
-  languageName: unknown
-  linkType: soft
 
 "@changesets/apply-release-plan@npm:^7.0.8":
   version: 7.0.8
@@ -11043,14 +11043,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "polygen-example@workspace:apps/example"
   dependencies:
+    "@0xbigboss/polygen": "workspace:^"
+    "@0xbigboss/polygen-cli": "workspace:^"
+    "@0xbigboss/polygen-config": "workspace:^"
+    "@0xbigboss/polygen-metro-config": "workspace:^"
     "@babel/core": "npm:^7.20.0"
     "@babel/preset-env": "npm:^7.20.0"
     "@babel/runtime": "npm:^7.20.0"
     "@bacons/text-decoder": "npm:^0.0.0"
-    "@callstack/polygen": "workspace:^"
-    "@callstack/polygen-cli": "workspace:^"
-    "@callstack/polygen-config": "workspace:^"
-    "@callstack/polygen-metro-config": "workspace:^"
     "@react-native/babel-preset": "npm:0.75.4"
     "@react-native/metro-config": "npm:0.75.4"
     "@react-native/typescript-config": "npm:0.75.4"

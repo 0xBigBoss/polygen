@@ -3,7 +3,7 @@ import type {
   ModuleMemory,
   ModuleTable,
   ResultType,
-} from '@callstack/wasm-parser';
+} from '@0xbigboss/wasm-parser';
 import type { W2CModuleBase } from './modules.js';
 
 /**

@@ -3,7 +3,7 @@ import type {
   PolygenExternalModuleConfig,
   PolygenLocalModuleConfig,
   PolygenModuleConfig,
-} from '@callstack/polygen-config';
+} from '@0xbigboss/polygen-config';
 import { resolveProjectDependency } from './deps';
 import type { Project } from './project';
 import type { ResolvedExternalModule, ResolvedLocalModule } from './types';

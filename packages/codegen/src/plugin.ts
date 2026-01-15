@@ -1,4 +1,4 @@
-import type { ResolvedModule } from '@callstack/polygen-project';
+import type { ResolvedModule } from '@0xbigboss/polygen-project';
 import type { Codegen } from './codegen.js';
 import type { W2CGeneratedModule } from './codegen/modules.js';
 import type { OutputGenerator } from './helpers/output-generator.js';

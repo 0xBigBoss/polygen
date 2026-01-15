@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import type { PolygenModuleConfig } from '@callstack/polygen-config';
-import type { Project, ResolvedModule } from '@callstack/polygen-project';
+import type { PolygenModuleConfig } from '@0xbigboss/polygen-config';
+import type { Project, ResolvedModule } from '@0xbigboss/polygen-project';
 import { DEFAULT_PLUGINS } from './codegen-pipeline.js';
 import { CodegenContext } from './codegen/context.js';
 import type { W2CExternModule, W2CGeneratedModule } from './codegen/modules.js';

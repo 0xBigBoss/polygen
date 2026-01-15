@@ -2,7 +2,7 @@ import type {
   ModuleMemory,
   ModuleTable,
   ValueType,
-} from '@callstack/wasm-parser';
+} from '@0xbigboss/wasm-parser';
 import stripIndent from 'strip-indent';
 import type { W2CGeneratedModule } from '../../codegen/modules.js';
 import type {

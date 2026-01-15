@@ -1,6 +1,6 @@
 {
-  "name": "@callstack/polygen-metro-config",
-  "version": "0.2.1",
+  "name": "@0xbigboss/polygen-metro-config",
+  "version": "0.1.1",
   "description": "Provides Polygen support for metro bundler",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -14,10 +14,10 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@callstack/polygen-project": "0.2.1"
+    "@0xbigboss/polygen-project": "0.1.1"
   },
   "devDependencies": {
-    "@callstack/polygen-typescript-config": "workspace:^",
+    "@0xbigboss/polygen-typescript-config": "workspace:^",
     "typescript": "^5.7.2"
   },
   "license": "MIT"

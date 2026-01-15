@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
-import type { ResolvedModule } from '@callstack/polygen-project';
-import { Module } from '@callstack/wasm-parser';
+import type { ResolvedModule } from '@0xbigboss/polygen-project';
+import { Module } from '@0xbigboss/wasm-parser';
 import { computeChecksumBuffer } from '../helpers/checksum.js';
 import { W2CExternModule, W2CGeneratedModule } from './modules.js';
 import type { ResolvedModuleImport } from './types.js';

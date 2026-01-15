@@ -1,7 +1,7 @@
 import {
   FileExternallyChangedError,
   FileOverwriteError,
-} from '@callstack/polygen-codegen';
+} from '@0xbigboss/polygen-codegen';
 import chalk from 'chalk';
 import { Option } from 'commander';
 import consola from 'consola';

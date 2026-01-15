@@ -1,5 +1,5 @@
 {
-  "extends": "@callstack/polygen-typescript-config",
+  "extends": "@0xbigboss/polygen-typescript-config",
   "include": ["src"],
   "exclude": ["node_modules"],
   "compilerOptions": {

@@ -20,8 +20,8 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "@0xbigboss/polygen-config": "workspace:^",
     "@bacons/text-decoder": "^0.0.0",
-    "@callstack/polygen-config": "workspace:^",
     "@react-navigation/native": "^7.0.13",
     "@react-navigation/native-stack": "^7.1.14",
     "@react-navigation/stack": "^7.0.18",
@@ -33,12 +33,12 @@
     "simple-sha256-wasm": "^0.1.2"
   },
   "devDependencies": {
+    "@0xbigboss/polygen": "workspace:^",
+    "@0xbigboss/polygen-cli": "workspace:^",
+    "@0xbigboss/polygen-metro-config": "workspace:^",
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
-    "@callstack/polygen": "workspace:^",
-    "@callstack/polygen-cli": "workspace:^",
-    "@callstack/polygen-metro-config": "workspace:^",
     "@react-native/babel-preset": "0.75.4",
     "@react-native/metro-config": "0.75.4",
     "@react-native/typescript-config": "0.75.4",

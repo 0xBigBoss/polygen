@@ -3,7 +3,7 @@ import {
   PackageNotADependencyError,
   type Project,
   resolveProjectDependency,
-} from '@callstack/polygen-project';
+} from '@0xbigboss/polygen-project';
 import chalk from 'chalk';
 import { Argument, Option } from 'commander';
 import consola from 'consola';

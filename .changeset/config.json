@@ -3,7 +3,7 @@
   "changelog": "./custom-changelog-format.mjs",
   "commit": false,
   "fixed": [],
-  "linked": [["@callstack/polygen-*"]],
+  "linked": [["@0xbigboss/polygen-*"]],
   "access": "public",
   "baseBranch": "master",
   "updateInternalDependencies": "patch",

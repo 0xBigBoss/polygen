@@ -1,7 +1,7 @@
 import { enableScreens } from 'react-native-screens';
 // run this before any screen render(usually in App.js)
 enableScreens();
-import '@callstack/polygen/polyfill';
+import '@0xbigboss/polygen/polyfill';
 
 import {
   Platform,

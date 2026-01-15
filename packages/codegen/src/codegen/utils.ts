@@ -6,7 +6,7 @@ import type {
   ModuleMemory,
   ModuleTable,
   ValueType,
-} from '@callstack/wasm-parser';
+} from '@0xbigboss/wasm-parser';
 import { mangleName } from '../wasm2c/mangle.js';
 import type { W2CModuleBase } from './modules.js';
 import type {

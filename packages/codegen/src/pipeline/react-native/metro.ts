@@ -1,9 +1,9 @@
 import path from 'path';
-import { BinaryWriter, ByteOrder } from '@callstack/polygen-binary-utils';
+import { BinaryWriter, ByteOrder } from '@0xbigboss/polygen-binary-utils';
 import {
   ResolvedModule,
   resolveProjectDependency,
-} from '@callstack/polygen-project';
+} from '@0xbigboss/polygen-project';
 import type { W2CGeneratedModule } from '../../codegen/modules.js';
 import { computeFileChecksumBuffer } from '../../helpers/checksum.js';
 import type { Plugin } from '../../plugin.js';

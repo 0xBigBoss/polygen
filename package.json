@@ -1,5 +1,5 @@
 {
-  "name": "@callstack/polygen-root",
+  "name": "@0xbigboss/polygen-root",
   "private": true,
   "version": "0.1.0",
   "description": "React Native Module for running WebAssembly modules without interpretng.",

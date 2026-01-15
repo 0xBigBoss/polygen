@@ -1,4 +1,4 @@
-import type { ModuleEntityKind } from '@callstack/wasm-parser';
+import type { ModuleEntityKind } from '@0xbigboss/wasm-parser';
 import type { W2CGeneratedModule } from '../../codegen/modules.js';
 import { cpp } from '../../source-builder/index.js';
 import { HEADER } from '../common.js';

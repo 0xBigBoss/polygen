@@ -1,7 +1,7 @@
 {
-  "name": "@callstack/polygen-codegen",
-  "version": "0.2.1",
-  "description": "The code generator for @callstack/polygen",
+  "name": "@0xbigboss/polygen-codegen",
+  "version": "0.1.1",
+  "description": "The code generator for @0xbigboss/polygen",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -21,15 +21,15 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@callstack/polygen-binary-utils": "0.1.0",
-    "@callstack/polygen-project": "0.2.1",
-    "@callstack/wasm-parser": "0.1.0",
+    "@0xbigboss/polygen-binary-utils": "0.1.1",
+    "@0xbigboss/polygen-project": "0.1.1",
+    "@0xbigboss/wasm-parser": "0.1.1",
     "execa": "^9.4.1",
     "indent-string": "^5.0.0",
     "strip-indent": "^4.0.0"
   },
   "devDependencies": {
-    "@callstack/polygen-typescript-config": "workspace:^",
+    "@0xbigboss/polygen-typescript-config": "workspace:^",
     "@types/node": "^22.10.0",
     "typescript": "^5.7.2"
   }

@@ -1,6 +1,6 @@
 const path = require('path');
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
-const { withPolygenConfig } = require('@callstack/polygen-metro-config');
+const { withPolygenConfig } = require('@0xbigboss/polygen-metro-config');
 
 const root = path.resolve(__dirname, '..', '..');
 
