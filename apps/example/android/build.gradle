@@ -43,6 +43,11 @@ allprojects {
 }
 
 
-react {
-    bundleCommand = "webpack-bundle"
+// Configure React plugin when applied in subprojects (e.g., :app module)
+subprojects {
+    plugins.withId("com.facebook.react") {
+        react {
+            bundleCommand = "webpack-bundle"
+        }
+    }
 }

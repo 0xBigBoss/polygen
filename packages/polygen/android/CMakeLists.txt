@@ -13,3 +13,21 @@ add_library(react-native-wasm            SHARED
 include_directories(
             ../cpp
 )
+
+# Link against React Native and fbjni (RN 0.76+ merged SO uses separate jsi module).
+target_link_libraries(react-native-wasm
+            ReactAndroid::jsi
+            ReactAndroid::reactnative
+            fbjni::fbjni
+)
+
+target_compile_options(react-native-wasm PRIVATE
+            -Wall
+            -fexceptions
+            -frtti
+            -O2
+            -fstack-protector-all
+            -DLOG_TAG=\"Polygen\"
+            -DFMT_HEADER_ONLY=1
+            ${folly_FLAGS}
+)
