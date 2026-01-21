@@ -1,6 +1,6 @@
 {
   "name": "@0xbigboss/polygen-codegen",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "The code generator for @0xbigboss/polygen",
   "license": "MIT",
   "type": "module",

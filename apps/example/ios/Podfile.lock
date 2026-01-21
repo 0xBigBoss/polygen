@@ -1586,7 +1586,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - ReactNativePolygen (0.2.0):
+  - ReactNativePolygen (0.1.2):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1606,9 +1606,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - ReactNativePolygen/Runtime (= 0.2.0)
+    - ReactNativePolygen/Runtime (= 0.1.2)
     - Yoga
-  - ReactNativePolygen/Runtime (0.2.0):
+  - ReactNativePolygen/Runtime (0.1.2):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1790,7 +1790,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../../../node_modules/react-native/ReactCommon`)
   - "ReactNativeHost (from `../../../node_modules/@rnx-kit/react-native-host`)"
   - "ReactNativePolygen (from `../../../node_modules/@0xbigboss/polygen`)"
-  - ReactNativeWebAssemblyHost (from `../node_modules/.polygen-out/host`)
+  - ReactNativeWebAssemblyHost (from `/Users/allen/0xbigboss/polygen/apps/example/node_modules/.polygen-out/host`)
   - ReactTestApp-DevSupport (from `../../../node_modules/react-native-test-app`)
   - ReactTestApp-Resources (from `..`)
   - RNGestureHandler (from `../../../node_modules/react-native-gesture-handler`)
@@ -1932,7 +1932,7 @@ EXTERNAL SOURCES:
   ReactNativePolygen:
     :path: "../../../node_modules/@0xbigboss/polygen"
   ReactNativeWebAssemblyHost:
-    :path: "../node_modules/.polygen-out/host"
+    :path: "/Users/allen/0xbigboss/polygen/apps/example/node_modules/.polygen-out/host"
   ReactTestApp-DevSupport:
     :path: "../../../node_modules/react-native-test-app"
   ReactTestApp-Resources:
@@ -2008,15 +2008,15 @@ SPEC CHECKSUMS:
   ReactCodegen: 3982de3211b80e119d9daa9cd6af090d75cb8e90
   ReactCommon: 6a952e50c2a4b694731d7682aaa6c79bc156e4ad
   ReactNativeHost: a27bb5af1c4d73dd3e80cc7ce295407f414e0e8c
-  ReactNativePolygen: 0bd407a86ba92381691b34d3dcf63c82357179ca
+  ReactNativePolygen: 232b94349835ebcf3d937ba65a031b989ee7fc5e
   ReactNativeWebAssemblyHost: cc689d810f1b4540a12906988768c489dcbe9ab3
-  ReactTestApp-DevSupport: 42abce6b0c88dfb47c86e80aa22831b2abcc3144
+  ReactTestApp-DevSupport: e6c63e21c7e848b6aa8cb0f7e6d7cee58587f4e6
   ReactTestApp-Resources: 7db90c026cccdf40cfa495705ad436ccc4d64154
   RNGestureHandler: 0e5ae8d72ef4afb855e98dcdbe60f27d938abe13
   RNScreens: 44a3e358d5ccd7815c5ae9148988c562826992b2
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 055f92ad73f8c8600a93f0e25ac0b2344c3b07e6
 
-PODFILE CHECKSUM: c1714ee28981de0d86c453420207a6024adcb8db
+PODFILE CHECKSUM: 74c9153d460af51ac95cb378e8a16ff045eedf50
 
 COCOAPODS: 1.16.2

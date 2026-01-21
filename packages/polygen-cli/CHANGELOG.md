@@ -1,5 +1,14 @@
 # @callstack/polygen-cli
 
+## 0.1.2
+
+### Patch Changes
+
+- Fix running 'init' command in a package with no dependencies [1819d58]
+- Fix wasm2c 1.0.39 compatibility, refresh wasm runtime assets, and update iOS/Android build integration.
+- Updated dependencies
+  - @0xbigboss/polygen-codegen@0.1.2
+
 ## 0.2.1
 
 ### Patch Changes

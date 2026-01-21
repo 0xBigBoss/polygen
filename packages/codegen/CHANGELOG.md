@@ -1,5 +1,11 @@
 # @callstack/polygen-codegen
 
+## 0.1.2
+
+### Patch Changes
+
+- Fix wasm2c 1.0.39 compatibility, refresh wasm runtime assets, and update iOS/Android build integration.
+
 ## 0.2.1
 
 ### Patch Changes

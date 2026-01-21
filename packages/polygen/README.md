@@ -12,8 +12,8 @@
   <img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/callstackincubator/polygen/ci.yml?style=flat-square" />
 </a>
 
-<a href="https://www.npmjs.com/package/@0xbigboss/polygen">
-  <img alt="Version" src="https://img.shields.io/npm/v/@0xbigboss/polygen?style=flat-square" />
+<a href="https://www.npmjs.com/package/@callstack/polygen">
+  <img alt="Version" src="https://img.shields.io/npm/v/@callstack/polygen?style=flat-square" />
 </a>
 
 <a href="https://github.com/callstackincubator/polygen/blob/master/LICENSE">
@@ -149,9 +149,9 @@ To make those changes persistent, add them to your `.bashrc`/`.zshrc`/`.profile`
 In your React Native project run:
 
 ```sh
-npx @0xbigboss/polygen init
+npx @callstack/polygen init
 # or
-yarn dlx @0xbigboss/polygen init
+yarn dlx @callstack/polygen init
 ```
 
 ## Usage
@@ -173,10 +173,10 @@ yarn polygen generate
 Run `polygen scan` to search for changes in found WebModules. All modules must be explictly listed in `polygen.config.[mc]js`
 Run `polygen generate` after any of the WebAssembly module changed.
 
-To use WebAssembly API, import `@0xbigboss/polygen/polyfill` in your application (before any other imports):
+To use WebAssembly API, import `@callstack/polygen/polyfill` in your application (before any other imports):
 
 ```js
-import '@0xbigboss/polygen/polyfill';
+import '@callstack/polygen/polyfill';
 ```
 
 ### Metro
@@ -186,16 +186,16 @@ Polygen has a Metro plugin that allows you to import WebAssembly modules in your
 > [!WARNING]
 > Currently, only modules from the current package are supported. This will be implemented in the next version.
 
-Add `@0xbigboss/polygen-metro-config` dependency to your project:
+Add `@callstack/polygen-metro-config` dependency to your project:
 
 ```sh
-yarn add -D @0xbigboss/polygen-metro-config
+yarn add -D @callstack/polygen-metro-config
 ```
 
 Then, in your `metro.config.js` file, add the following:
 
 ```js
-const { withPolygenConfig } = require('@0xbigboss/polygen-metro-config');
+const { withPolygenConfig } = require('@callstack/polygen-metro-config');
 ```
 
 And wrap your Metro configuration with `withPolygenConfig` call:

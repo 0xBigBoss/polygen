@@ -1,5 +1,15 @@
 # @callstack/polygen
 
+## 0.1.3
+
+### Patch Changes
+
+- Include missing polygen.rb in polygen package. [6a9d5c7]
+- Fix wasm2c 1.0.39 compatibility, refresh wasm runtime assets, and update iOS/Android build integration.
+- Updated dependencies [1819d58]
+- Updated dependencies
+  - @0xbigboss/polygen-cli@0.1.2
+
 ## 0.2.1
 
 ### Patch Changes

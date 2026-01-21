@@ -1,6 +1,6 @@
 {
   "name": "@0xbigboss/polygen-cli",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "The Command Line Interface for @0xbigboss/polygen",
   "main": "./dist/index.js",
   "bin": "bin/polygen.js",
@@ -19,7 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@0xbigboss/polygen-codegen": "0.1.1",
+    "@0xbigboss/polygen-codegen": "0.1.4",
     "@0xbigboss/polygen-project": "0.1.1",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
