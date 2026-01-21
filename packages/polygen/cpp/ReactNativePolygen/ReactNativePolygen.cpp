@@ -25,6 +25,11 @@ namespace facebook::react {
         wasm_rt_free();
     }
 
+    bool ReactNativePolygen::isPolygenAvailable(jsi::Runtime &rt) {
+        (void)rt;
+        return true;
+    }
+
     bool ReactNativePolygen::copyNativeHandle(jsi::Runtime &rt, jsi::Object holder, jsi::Object source) {
         auto hasNativeState = source.hasNativeState(rt);
 

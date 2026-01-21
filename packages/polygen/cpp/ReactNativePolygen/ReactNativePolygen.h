@@ -55,6 +55,8 @@ public:
   explicit ReactNativePolygen(std::shared_ptr<CallInvoker> jsInvoker);
   virtual ~ReactNativePolygen();
 
+  bool isPolygenAvailable(jsi::Runtime &rt) override;
+
   bool copyNativeHandle(jsi::Runtime &rt, jsi::Object holder, jsi::Object source) override;
 
   // Modules
@@ -90,5 +92,4 @@ private:
 };
 
 }
-
 

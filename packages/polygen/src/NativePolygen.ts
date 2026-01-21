@@ -130,6 +130,8 @@ export type OpaqueGlobalNativeHandle = UnsafeObject;
 export type OpaqueTableNativeHandle = UnsafeObject;
 
 export interface Spec extends TurboModule {
+  isPolygenAvailable(): boolean;
+
   copyNativeHandle(holder: UnsafeObject, from: UnsafeObject): boolean;
 
   // Modules
