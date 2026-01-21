@@ -24,6 +24,7 @@ export {
 } from './helpers/output-generator.js';
 
 const UMBRELLA_PROJECT_NAME = 'host';
+const EXTERNAL_MODULE_SEPARATOR = '__';
 
 const ASSETS_DIR = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -277,7 +278,9 @@ export class Codegen {
 
   private outputPathForModule(module: PolygenModuleConfig, name: string) {
     let dirName =
-      module.kind === 'external' ? `${module.packageName}#${name}` : name;
+      module.kind === 'external'
+        ? `${module.packageName}${EXTERNAL_MODULE_SEPARATOR}${name}`
+        : name;
     if (this.options.singleProject) {
       return path.join(UMBRELLA_PROJECT_NAME, dirName);
     }

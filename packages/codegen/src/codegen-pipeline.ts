@@ -1,4 +1,5 @@
 import { cocoapods } from './pipeline/react-native/cocoapods.js';
+import { androidCmake } from './pipeline/react-native/android-cmake.js';
 import { metroResolver } from './pipeline/react-native/metro.js';
 import { reactNativeTurboModule } from './pipeline/react-native/turbomodule.js';
 import { embedWasmRuntime } from './pipeline/wasm2c-runtime.js';
@@ -9,4 +10,5 @@ export const DEFAULT_PLUGINS: Plugin[] = [
   metroResolver(),
   reactNativeTurboModule(),
   embedWasmRuntime(),
+  androidCmake(),
 ];
