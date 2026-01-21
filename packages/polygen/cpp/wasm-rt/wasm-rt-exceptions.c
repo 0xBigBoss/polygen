@@ -31,38 +31,43 @@ static WASM_RT_THREAD_LOCAL wasm_rt_jmp_buf* g_unwind_target;
 void wasm_rt_load_exception(const wasm_rt_tag_t tag,
                             uint32_t size,
                             const void* values) {
-    if (size > MAX_EXCEPTION_SIZE) {
-        wasm_rt_trap(WASM_RT_TRAP_EXHAUSTION);
-    }
+  if (size > MAX_EXCEPTION_SIZE) {
+    wasm_rt_trap(WASM_RT_TRAP_EXHAUSTION);
+  }
 
-    g_active_exception_tag = tag;
-    g_active_exception_size = size;
+  g_active_exception_tag = tag;
+  g_active_exception_size = size;
 
-    if (size) {
-        memcpy(g_active_exception, values, size);
-    }
+  if (size) {
+    memcpy(g_active_exception, values, size);
+  }
 }
 
 WASM_RT_NO_RETURN void wasm_rt_throw(void) {
-    WASM_RT_LONGJMP(*g_unwind_target, WASM_RT_TRAP_UNCAUGHT_EXCEPTION);
+  WASM_RT_LONGJMP(*g_unwind_target, WASM_RT_TRAP_UNCAUGHT_EXCEPTION);
 }
 
 WASM_RT_UNWIND_TARGET* wasm_rt_get_unwind_target(void) {
-    return g_unwind_target;
+  return g_unwind_target;
 }
 
 void wasm_rt_set_unwind_target(WASM_RT_UNWIND_TARGET* target) {
-    g_unwind_target = target;
+  g_unwind_target = target;
 }
 
 wasm_rt_tag_t wasm_rt_exception_tag(void) {
-    return g_active_exception_tag;
+  return g_active_exception_tag;
 }
 
 uint32_t wasm_rt_exception_size(void) {
-    return g_active_exception_size;
+  return g_active_exception_size;
 }
 
 void* wasm_rt_exception(void) {
-    return g_active_exception;
+  return g_active_exception;
 }
+
+// Include table operations for exnref
+#define WASM_RT_TABLE_OPS_EXNREF
+#include "wasm-rt-impl-tableops.inc"
+#undef WASM_RT_TABLE_OPS_EXNREF

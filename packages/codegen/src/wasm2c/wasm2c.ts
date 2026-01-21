@@ -4,6 +4,7 @@ import { execa } from 'execa';
 
 const waToolkitPath = process.env.WABT_PATH;
 let finalWasm2cPath: string | undefined;
+const SUPPORTED_WASM2C_VERSION_PREFIX = '1.0.39';
 
 /**
  * Error class for wasm2c validation errors.
@@ -16,10 +17,10 @@ export class Wasm2cError extends Error {
 }
 
 function assertVersion(output: string) {
-  if (!output.startsWith('1.0.36')) {
+  if (!output.startsWith(SUPPORTED_WASM2C_VERSION_PREFIX)) {
     const version = output.split(' ')[0];
     throw new Wasm2cError(
-      `Unsupported wasm2c version: ${version}. Please use version 1.0.36.`
+      `Unsupported wasm2c version: ${version}. Please use version ${SUPPORTED_WASM2C_VERSION_PREFIX}.`
     );
   }
 }
@@ -63,8 +64,13 @@ export async function ensureBinaryAvailable() {
   try {
     const { stdout } = await execa(finalWasm2cPath!, ['--version']);
     assertVersion(stdout);
-    return;
-  } catch (e) {}
+  } catch (error) {
+    if (error instanceof Wasm2cError) {
+      throw error;
+    }
+
+    throw new Wasm2cError(`Failed to validate wasm2c: ${String(error)}`);
+  }
 }
 
 /**
