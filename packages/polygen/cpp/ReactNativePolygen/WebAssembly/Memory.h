@@ -17,7 +17,13 @@ public:
   
   Memory(uint64_t initial, uint64_t maximum, bool is64 = false) {
     this->memory_ = &this->ownedMemory_;
-    wasm_rt_allocate_memory(this->memory_, initial, maximum, is64);
+    wasm_rt_allocate_memory(
+      this->memory_,
+      initial,
+      maximum,
+      is64,
+      WASM_DEFAULT_PAGE_SIZE
+    );
   }
   
   virtual ~Memory() {

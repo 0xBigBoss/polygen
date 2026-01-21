@@ -89,6 +89,9 @@ android {
 
   buildFeatures {
     buildConfig true
+    if (isNewArchitectureEnabled()) {
+      prefab true
+    }
   }
 
   buildTypes {
@@ -102,8 +105,12 @@ android {
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+
+  kotlinOptions {
+    jvmTarget = "17"
   }
 
   sourceSets {
@@ -142,5 +149,20 @@ if (isNewArchitectureEnabled()) {
     jsRootDir = file("../src/")
     libraryName = "Wasm"
     codegenJavaPackageName = "com.wasm"
+  }
+}
+
+if (isNewArchitectureEnabled()) {
+  def codegenOutputDir = file("$buildDir/generated/source/codegen/jni")
+  def autolinkOutputDir = file("$buildDir/generated/source/polygen/jni")
+
+  def syncPolygenCodegen = tasks.register("syncPolygenCodegen", Sync) {
+    dependsOn("generateCodegenArtifactsFromSchema")
+    from(codegenOutputDir)
+    into(autolinkOutputDir)
+  }
+
+  tasks.named("preBuild") {
+    dependsOn(syncPolygenCodegen)
   }
 }

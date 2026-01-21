@@ -7,6 +7,7 @@
 #pragma once
 
 #include <cinttypes>
+#include <string>
 #include <span>
 
 namespace callstack::polygen {
